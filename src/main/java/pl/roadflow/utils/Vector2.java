@@ -36,4 +36,8 @@ public class Vector2 {
     public float magnitude() {
         return (float) Math.sqrt(x * x + y * y);
     }
+
+    public static float dot(Vector2 a, Vector2 b) {
+        return a.x * b.x + a.y * b.y;
+    }
 }
