@@ -1,16 +1,16 @@
-## Opis zmian
-<!-- Opisz wprowadzone zmiany -->
+## Description of Changes
+<!-- Describe the changes introduced -->
 
-## Typ zmian
-- [ ] Nowa funkcjonalność
-- [ ] Poprawka błędu
-- [ ] Refaktoryzacja kodu
-- [ ] Aktualizacja dokumentacji
+## Type of Changes
+- [ ] New Feature
+- [ ] Bug Fix
+- [ ] Code Refactoring
+- [ ] Documentation Update
 
-## Testy
-<!-- Opisz jak przetestowano zmiany -->
+## Testing
+<!-- Describe how the changes were tested -->
 
 ## Code Review Checklist
-- [ ] Kod jest czytelny i zgodny z konwencjami
-- [ ] Zmiany zostały przetestowane
-- [ ] Dokumentacja została zaktualizowana (jeśli wymagane)
+- [ ] Code is readable and follows conventions
+- [ ] Changes have been tested
+- [ ] Documentation has been updated (if required)
