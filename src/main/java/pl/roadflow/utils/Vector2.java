@@ -17,12 +17,12 @@ public class Vector2 {
         return new Vector2(0, 0);
     }
 
-    public void normalize() {
-        float magnitude = (float) Math.sqrt(x * x + y * y);
-        if (magnitude > 0) {
-            x /= magnitude;
-            y /= magnitude;
+    public Vector2 normalize() {
+        float mag = magnitude();
+        if (mag == 0) {
+            return new Vector2(0, 0);
         }
+        return new Vector2(x / mag, y / mag);
     }
 
     public Vector2 add(Vector2 other) {

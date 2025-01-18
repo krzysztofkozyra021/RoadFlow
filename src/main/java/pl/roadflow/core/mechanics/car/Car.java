@@ -16,7 +16,7 @@ public class Car {
     private int width = 36;
     private int height = 12;
     private Color color = Color.RED;
-    private static final float VELOCITY_SCALE = 5.0f;
+    private static final float VELOCITY_SCALE = 1.0f;
     private ImageIcon carModel = new ImageIcon(GameConsts.CAR_FILE_PATH);
 
     public Car(int startX, int startY) {
@@ -26,32 +26,29 @@ public class Car {
     }
 
     public void update() {
+
         // Update controller
         carInputHandler.update();
 
-        // Get controller
         TopDownCarController controller = carInputHandler.topDownCarController;
 
-        controller.ApplySteering();
-        controller.ApplyEngineForce();
+        controller.applySteering();
+        controller.applyEngineForce();
 
-        // Get entry values
-        Vector2 inputVector = carInputHandler.getInputVector();
-        float angleInRadians = (float)Math.toRadians(controller.rotationAngle);
+        Vector2 velocity = controller.getVelocity();
 
-        // Calculate new position
-        x += Math.cos(angleInRadians) * inputVector.y * VELOCITY_SCALE;
-        y += Math.sin(angleInRadians) * inputVector.y * VELOCITY_SCALE;
+        // Update position based on velocity
+        x += velocity.x * VELOCITY_SCALE;
+        y += velocity.y * VELOCITY_SCALE;
     }
-
     public void draw(Graphics2D g2d) {
         AffineTransform old = g2d.getTransform();
 
         // Move to center of car image asset
         g2d.translate(x + carModel.getIconWidth()/2, y + carModel.getIconHeight()/2);
 
-        // Obrót wokół środka
-        g2d.rotate(Math.toRadians(90 + carInputHandler.topDownCarController.rotationAngle));
+        // Rotate - since car is facing right (0 degrees) we don't need any offset
+        g2d.rotate(Math.toRadians(carInputHandler.topDownCarController.rotationAngle));
 
         // Drawing with half offset of icon size
         carModel.paintIcon(null, g2d, -carModel.getIconWidth()/2, -carModel.getIconHeight()/2);
