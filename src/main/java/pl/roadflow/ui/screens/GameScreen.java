@@ -1,10 +1,14 @@
 package src.main.java.pl.roadflow.ui.screens;
 
+import src.main.java.pl.roadflow.core.mechanics.car.Car;
 import src.main.java.pl.roadflow.utils.consts.GameConsts;
 import src.main.java.pl.roadflow.utils.consts.MapTileConsts;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.geom.Point2D;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -12,13 +16,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameScreen extends JFrame {
-
     MapTileConsts mapTileConsts = new MapTileConsts();
     GameConsts gameConsts = new GameConsts();
-    public final int WIDTH = 60; // 1920 / 32 (Tile size) = 60
-    public final int HEIGHT = 33; // 1080 / 32 (Tile size) = 33.75
+    public final int WIDTH = 60;
+    public final int HEIGHT = 33;
     public final int TILE_SIZE = 32;
     public ArrayList<String> mapData;
+    private Car car;
+    private Timer gameTimer;
+    Point2D startTilePosition = new Point();
 
     public final String TITLE = "Road Flow";
 
@@ -28,21 +34,90 @@ public class GameScreen extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
-        setVisible(true);
 
         mapData = new ArrayList<>();
         loadMapData();
+        getStartTilePosition();
 
-        System.out.println(mapData);
+        // Spawn Car at the S (Start) tile
+
+        car = new Car((int) startTilePosition.getX(), (int) startTilePosition.getY());
+
+        // Add key listener to the window
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                car.handleKeyPressed(e.getKeyCode());
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                car.handleKeyReleased(e.getKeyCode());
+            }
+        });
+
+        // Create time to update the game
+        gameTimer = new Timer(16, e -> {
+            car.update();
+            repaint();
+        });
+        gameTimer.start();
+
+        setVisible(true);
+        // Make sure that the window can handle key events
+        setFocusable(true);
+        requestFocusInWindow();
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                car.handleKeyPressed(e.getKeyCode());
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                car.handleKeyReleased(e.getKeyCode());
+            }
+        });
     }
 
-    public void paint(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
+    private void getStartTilePosition() {
         for (int i = 0; i < mapData.size(); i++) {
             for (int j = 0; j < mapData.get(i).length(); j++) {
-                g2d.drawImage(mapTileConsts.getMapTileIcons().get(mapData.get(i).charAt(j)).getImage(), j * TILE_SIZE, i * TILE_SIZE, null);
+                if (mapData.get(i).charAt(j) == 'S') {
+                    startTilePosition.setLocation(j * TILE_SIZE, i * TILE_SIZE);
+                    return;
+                }
             }
         }
+    }
+
+    @Override
+    public void paint(Graphics g) {
+
+        // Create buffer to buffer two times
+        Image offscreen = createImage(getWidth(), getHeight());
+        Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
+
+        // Enable antialiasing
+        offgc.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+
+        // Draw map
+        for (int i = 0; i < mapData.size(); i++) {
+            for (int j = 0; j < mapData.get(i).length(); j++) {
+                offgc.drawImage(
+                        mapTileConsts.getMapTileIcons().get(mapData.get(i).charAt(j)).getImage(),
+                        j * TILE_SIZE,
+                        i * TILE_SIZE,
+                        null
+                );
+            }
+        }
+
+        car.draw(offgc);
+
+        // Move buffer to the screen
+        g.drawImage(offscreen, 0, 0, this);
     }
 
     public void loadMapData() {
