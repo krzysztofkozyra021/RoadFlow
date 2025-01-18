@@ -25,7 +25,6 @@ public class GameScreen extends JFrame {
     private Car car;
     private Timer gameTimer;
     Point2D startTilePosition = new Point();
-
     public final String TITLE = "Road Flow";
 
     public GameScreen() {
@@ -42,6 +41,7 @@ public class GameScreen extends JFrame {
         // Spawn Car at the S (Start) tile
 
         car = new Car((int) startTilePosition.getX(), (int) startTilePosition.getY());
+        addObstaclesToCar();
 
         // Add key listener to the window
         addKeyListener(new KeyAdapter() {
@@ -91,10 +91,27 @@ public class GameScreen extends JFrame {
         }
     }
 
+    private void addObstaclesToCar() {
+        for (int i = 0; i < mapData.size(); i++) {
+            for (int j = 0; j < mapData.get(i).length(); j++) {
+                char tile = mapData.get(i).charAt(j);
+                // Sprawdź czy kafelek jest przeszkodą (H, T, itd.)
+                if(mapTileConsts.getObstacleTiles().contains(tile)){// dostosuj znaki według twoich oznaczeń przeszkód
+                    Rectangle obstacle = new Rectangle(
+                            j * TILE_SIZE,      // x position
+                            i * TILE_SIZE,      // y position
+                            TILE_SIZE,          // width
+                            TILE_SIZE           // height
+                    );
+                    car.addObstacle(obstacle);
+                }
+            }
+        }
+    }
+
     @Override
     public void paint(Graphics g) {
 
-        // Create buffer to buffer two times
         Image offscreen = createImage(getWidth(), getHeight());
         Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
 
@@ -115,7 +132,7 @@ public class GameScreen extends JFrame {
         }
 
         car.draw(offgc);
-
+        car.setCurrentPositionTile(getTileAtPosition((int) car.getX(), (int) car.getY()));
         // Move buffer to the screen
         g.drawImage(offscreen, 0, 0, this);
     }
@@ -146,17 +163,11 @@ public class GameScreen extends JFrame {
         return 'G';
     }
 
-    public boolean isRoadTile(int x, int y) {
-        char tile = getTileAtPosition(x, y);
-        return tile == 'D' || tile == 'P' ||
-                tile == '1' || tile == '2' || tile == '3' || tile == '4';
-    }
+
 
     public Point getTileCenter(int x, int y) {
         int tileX = (x / TILE_SIZE) * TILE_SIZE + TILE_SIZE / 2;
         int tileY = (y / TILE_SIZE) * TILE_SIZE + TILE_SIZE / 2;
         return new Point(tileX, tileY);
     }
-
-
 }
