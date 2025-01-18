@@ -31,7 +31,6 @@ public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
                 (float)Math.sin(angleInRadians)   // and sin for y
         );
 
-        // Reszta metody pozostaje bez zmian
         float currentForwardSpeed = Vector2.dot(velocity, forwardDir);
         float accelerationRoom = maxSpeed - Math.abs(currentForwardSpeed);
         float actualAcceleration = accelerationInput * accelerationFactor * accelerationRoom;
@@ -130,5 +129,19 @@ public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
     @Override
     public float getRotationAngle() {
         return rotationAngle;
+    }
+
+
+    public void setVelocity(Vector2 vector2) {
+        velocity = vector2;
+    }
+
+    public void stopCar() {
+        accelerationInput = 0;
+        steeringInput = 0;
+        currentSpeed = 0;
+
+        // Reset velocity
+        velocity = new Vector2(0, 0);
     }
 }
