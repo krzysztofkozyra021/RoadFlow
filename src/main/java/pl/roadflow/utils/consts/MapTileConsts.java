@@ -1,4 +1,4 @@
-package src.main.java.pl.roadflow.utils;
+package src.main.java.pl.roadflow.utils.consts;
 
 import javax.swing.*;
 import java.util.HashMap;
@@ -8,7 +8,7 @@ import java.util.HashMap;
  */
 public class MapTileConsts {
 
-    private static final String ASSET_FOLDER_PATH = "src/main/resources/assets/";
+    private static final String ASSET_FOLDER_PATH = "src/main/java/pl/roadflow/assets/de_snow/";
     private HashMap<Character, ImageIcon> mapTileIcons;
 
     public MapTileConsts() {
