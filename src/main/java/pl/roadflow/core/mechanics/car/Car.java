@@ -3,7 +3,9 @@ package src.main.java.pl.roadflow.core.mechanics.car;
 import src.main.java.pl.roadflow.core.mechanics.car.controller.CarInputHandler;
 import src.main.java.pl.roadflow.core.mechanics.car.controller.impl.TopDownCarController;
 import src.main.java.pl.roadflow.utils.Vector2;
+import src.main.java.pl.roadflow.utils.consts.GameConsts;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
@@ -15,10 +17,11 @@ public class Car {
     private int height = 12;
     private Color color = Color.RED;
     private static final float VELOCITY_SCALE = 5.0f;
+    private ImageIcon carModel = new ImageIcon(GameConsts.CAR_FILE_PATH);
 
     public Car(int startX, int startY) {
-        this.x = startX;
-        this.y = startY;
+        this.x = startX - carModel.getIconWidth()/2;
+        this.y = startY - carModel.getIconHeight()/2;
         this.carInputHandler = new CarInputHandler();
     }
 
@@ -34,7 +37,7 @@ public class Car {
 
         // Get entry values
         Vector2 inputVector = carInputHandler.getInputVector();
-        float angleInRadians = (float)Math.toRadians(controller.rotationAngle + 180);
+        float angleInRadians = (float)Math.toRadians(controller.rotationAngle);
 
         // Calculate new position
         x += Math.cos(angleInRadians) * inputVector.y * VELOCITY_SCALE;
@@ -44,17 +47,14 @@ public class Car {
     public void draw(Graphics2D g2d) {
         AffineTransform old = g2d.getTransform();
 
-        int drawX = (int)x;
-        int drawY = (int)y;
+        // Move to center of car image asset
+        g2d.translate(x + carModel.getIconWidth()/2, y + carModel.getIconHeight()/2);
 
-        g2d.translate(drawX + width/2, drawY + height/2);
-        g2d.rotate(Math.toRadians(carInputHandler.topDownCarController.rotationAngle + 180));
-        g2d.translate(-(drawX + width/2), -(drawY + height/2));
+        // Obrót wokół środka
+        g2d.rotate(Math.toRadians(90 + carInputHandler.topDownCarController.rotationAngle));
 
-
-        // Car body
-        g2d.setColor(color);
-        g2d.fillRect(drawX, drawY, width, height);
+        // Drawing with half offset of icon size
+        carModel.paintIcon(null, g2d, -carModel.getIconWidth()/2, -carModel.getIconHeight()/2);
 
         g2d.setTransform(old);
     }
