@@ -1,2 +1,2 @@
 # RoadFlow
-Visualize, learn and have fun with real-time traffic!
+Try you best, and become victorious among other racers! 
