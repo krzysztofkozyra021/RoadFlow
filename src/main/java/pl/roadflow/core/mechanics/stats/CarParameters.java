@@ -5,7 +5,7 @@ public class CarParameters {
     private float minSpeedToTurn;     // Minimum speed required for turning
     private float driftFactor;         // How much lateral velocity is preserved (higher = more drift)
     private float maxSpeed;          // Maximum vehicle speed
-    private float drag;               // Air resistance (less = less drag)
+    private float drag;               // Grip resistance (less = car stops faster)
 
     public CarParameters(float accelerationFactor, float minSpeedToTurn, float driftFactor, float maxSpeed, float drag) {
         this.accelerationFactor = accelerationFactor;

@@ -8,9 +8,9 @@ public class SportCar extends Car {
         return new CarParameters(
                 0.4f,
                 0.5f,
-                0.95f,
+                0.96f,
                 20f,
-                0.98f
+                0.99f
         );
     }
 

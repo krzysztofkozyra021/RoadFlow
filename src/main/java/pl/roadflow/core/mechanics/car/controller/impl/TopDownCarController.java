@@ -2,17 +2,18 @@ package src.main.java.pl.roadflow.core.mechanics.car.controller.impl;
 
 import src.main.java.pl.roadflow.core.mechanics.car.controller.IVehicleInput;
 import src.main.java.pl.roadflow.core.mechanics.car.controller.IVehiclePhysics;
+import src.main.java.pl.roadflow.core.mechanics.car.physics.DriftPhysics;
 import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import src.main.java.pl.roadflow.utils.Vector2;
 
 public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
 
+    private DriftPhysics driftPhysics;
     CarParameters carParameters;
-
     // Vehicle dynamics constants
     public float turnFactor = 10.0f;            // Base turning rate
     public float currentSpeed = 0.0f;          // Current vehicle speed
-    private float lateralDrag = 0.9f;          // Lateral movement resistance
+    private float lateralDrag = 1.02f;          // Lateral movement resistance (More = More drift)
 
 
     // Input state
@@ -23,7 +24,20 @@ public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
     Vector2 inputVector;                       // Raw input vector
 
     public TopDownCarController(CarParameters carParameters) {
+        driftPhysics = new DriftPhysics(this);
         this.carParameters = carParameters;
+    }
+
+    public float getLateralDrag(){
+        return lateralDrag;
+    }
+
+    public float getAccelerationInput() {
+        return accelerationInput;
+    }
+
+    public CarParameters getCarParameters() {
+        return carParameters;
     }
 
     @Override
@@ -35,7 +49,7 @@ public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
         Vector2 engineForceVector = getEngineForceVector(maxSpeed, accelerationFactor);
         velocity = velocity.add(engineForceVector);
 
-        applyDriftPhysics();
+        driftPhysics.applyDriftPhysics();
 
         if (velocity.magnitude() > maxSpeed) {
             velocity = velocity.normalize().multiply(maxSpeed);
@@ -62,31 +76,6 @@ public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
 
         Vector2 engineForceVector = forwardDir.multiply(actualAcceleration);
         return engineForceVector;
-    }
-
-    private void applyDriftPhysics() {
-        float angleInRadians = (float)Math.toRadians(rotationAngle);
-        Vector2 forward = new Vector2(
-                (float)Math.cos(angleInRadians),
-                (float)Math.sin(angleInRadians)
-        );
-
-        // Vector right is perpendicular to forward (rotated 90 degrees clockwise)
-        Vector2 right = new Vector2(
-                -(float)Math.sin(angleInRadians),
-                (float)Math.cos(angleInRadians)
-        );
-
-        float forwardSpeed = Vector2.dot(velocity, forward);
-        float lateralSpeed = Vector2.dot(velocity, right);
-
-        float driftedLateralSpeed = lateralSpeed * carParameters.getDriftFactor();
-
-        if (Math.abs(accelerationInput) < 0.1f && Math.abs(forwardSpeed) > 0.5f) {
-            driftedLateralSpeed *= lateralDrag;
-        }
-
-        velocity = forward.multiply(forwardSpeed).add(right.multiply(driftedLateralSpeed));
     }
 
     @Override
