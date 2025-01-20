@@ -1,71 +1,62 @@
 package src.main.java.pl.roadflow.core.mechanics.car.controller;
 
 import src.main.java.pl.roadflow.core.mechanics.car.controller.impl.TopDownCarController;
+import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import src.main.java.pl.roadflow.utils.Vector2;
 
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CarInputHandler {
+
+    private final Map<Integer, Boolean> keyStates = new HashMap<>();
     public TopDownCarController topDownCarController;
     private Vector2 inputVector;
-    private boolean upPressed, downPressed, leftPressed, rightPressed;
 
-    public CarInputHandler() {
-        topDownCarController = new TopDownCarController();
+    public CarInputHandler(CarParameters carParameters) {
+        topDownCarController = new TopDownCarController(carParameters);
         inputVector = new Vector2();
+        for (VehicleKeysControl control : VehicleKeysControl.values()) {
+            keyStates.put(control.getKeyCode(), false);
+        }
     }
 
-    public Vector2 getInputVector() {
-        return inputVector;
+    public TopDownCarController getTopDownCarController() {
+        return topDownCarController;
     }
 
     public void update() {
-        // We reset the input vector
+        // We reset input vector
         inputVector = new Vector2(0, 0);
 
-        // We set the input vector based on the keys pressed
-        // Vertical (y)
-        if (upPressed) inputVector.y = 1.0f;
-        if (downPressed) inputVector.y = -1.0f;
+        // We add vector from active keys
+        for (Map.Entry<Integer, Boolean> entry : keyStates.entrySet()) {
+            if (entry.getValue()) { // If key is pressed
+                VehicleKeysControl control = VehicleKeysControl.getByKeyCode(entry.getKey());
+                if (control != null) {
+                    inputVector = inputVector.add(control.getInputVector());
+                }
+            }
+        }
 
-        // Horizontal (x)
-        if (leftPressed) inputVector.x = -1.0f;
-        if (rightPressed) inputVector.x = 1.0f;
-
+        // Pass active vector to controller
         topDownCarController.setInputVector(inputVector);
     }
 
     public void handleKeyPressed(int keyCode) {
-        switch (keyCode) {
-            case KeyEvent.VK_UP:
-                upPressed = true;
-                break;
-            case KeyEvent.VK_DOWN:
-                downPressed = true;
-                break;
-            case KeyEvent.VK_LEFT:
-                leftPressed = true;
-                break;
-            case KeyEvent.VK_RIGHT:
-                rightPressed = true;
-                break;
+        if (keyStates.containsKey(keyCode)) {
+            keyStates.put(keyCode, true); // mark key as pressed
         }
     }
 
     public void handleKeyReleased(int keyCode) {
-        switch (keyCode) {
-            case KeyEvent.VK_UP:
-                upPressed = false;
-                break;
-            case KeyEvent.VK_DOWN:
-                downPressed = false;
-                break;
-            case KeyEvent.VK_LEFT:
-                leftPressed = false;
-                break;
-            case KeyEvent.VK_RIGHT:
-                rightPressed = false;
-                break;
+        if (keyStates.containsKey(keyCode)) {
+            keyStates.put(keyCode, false); // mark key as released
         }
     }
+
+
+
+
 }

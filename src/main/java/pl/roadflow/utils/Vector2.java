@@ -40,4 +40,9 @@ public class Vector2 {
     public static float dot(Vector2 a, Vector2 b) {
         return a.x * b.x + a.y * b.y;
     }
+
+    public Vector2 subtract(Vector2 other) {
+        return new Vector2(this.x - other.x, this.y - other.y);
+
+    }
 }

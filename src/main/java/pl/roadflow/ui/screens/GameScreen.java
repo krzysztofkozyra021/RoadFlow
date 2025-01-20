@@ -1,6 +1,7 @@
 package src.main.java.pl.roadflow.ui.screens;
 
 import src.main.java.pl.roadflow.core.mechanics.car.Car;
+import src.main.java.pl.roadflow.core.mechanics.car.carTypes.SportCar;
 import src.main.java.pl.roadflow.utils.consts.GameConsts;
 import src.main.java.pl.roadflow.utils.consts.MapTileConsts;
 
@@ -39,8 +40,7 @@ public class GameScreen extends JFrame {
         getStartTilePosition();
 
         // Spawn Car at the S (Start) tile
-
-        car = new Car((int) startTilePosition.getX(), (int) startTilePosition.getY());
+        car = new SportCar((int) startTilePosition.getX(), (int) startTilePosition.getY());
         addObstaclesToCar();
 
         // Add key listener to the window
@@ -95,8 +95,7 @@ public class GameScreen extends JFrame {
         for (int i = 0; i < mapData.size(); i++) {
             for (int j = 0; j < mapData.get(i).length(); j++) {
                 char tile = mapData.get(i).charAt(j);
-                // Sprawdź czy kafelek jest przeszkodą (H, T, itd.)
-                if(mapTileConsts.getObstacleTiles().contains(tile)){// dostosuj znaki według twoich oznaczeń przeszkód
+                if(mapTileConsts.getObstacleTiles().contains(tile)){
                     Rectangle obstacle = new Rectangle(
                             j * TILE_SIZE,      // x position
                             i * TILE_SIZE,      // y position
@@ -144,8 +143,6 @@ public class GameScreen extends JFrame {
             while ((line = reader.readLine()) != null) {
                 mapData.add(line);
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
