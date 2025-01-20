@@ -95,8 +95,7 @@ public class GameScreen extends JFrame {
         for (int i = 0; i < mapData.size(); i++) {
             for (int j = 0; j < mapData.get(i).length(); j++) {
                 char tile = mapData.get(i).charAt(j);
-                // Sprawdź czy kafelek jest przeszkodą (H, T, itd.)
-                if(mapTileConsts.getObstacleTiles().contains(tile)){// dostosuj znaki według twoich oznaczeń przeszkód
+                if(mapTileConsts.getObstacleTiles().contains(tile)){
                     Rectangle obstacle = new Rectangle(
                             j * TILE_SIZE,      // x position
                             i * TILE_SIZE,      // y position

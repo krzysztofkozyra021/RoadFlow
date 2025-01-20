@@ -2,6 +2,7 @@ package src.main.java.pl.roadflow.core.mechanics.car;
 
 import src.main.java.pl.roadflow.core.mechanics.car.controller.CarInputHandler;
 import src.main.java.pl.roadflow.core.mechanics.car.controller.impl.TopDownCarController;
+import src.main.java.pl.roadflow.core.mechanics.car.physics.CollisionHandler;
 import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import src.main.java.pl.roadflow.utils.Vector2;
 import src.main.java.pl.roadflow.utils.consts.GameConsts;
@@ -9,49 +10,30 @@ import src.main.java.pl.roadflow.utils.consts.GameConsts;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.util.List;
 import java.util.ArrayList;
 
 public class Car {
     private CarInputHandler carInputHandler;
+    private CollisionHandler collisionHandler;
     private float x, y;
     private static final float VELOCITY_SCALE = 1.0f;
     private ImageIcon carModel = new ImageIcon(GameConsts.CAR_FILE_PATH);
     private char currentPositionTile = ' ';
     private Rectangle hitbox;
-    private List<Rectangle> obstacles;
-    private static final float BOUNCE_FACTOR = 0.5f;
-    private static final int TILE_SIZE = 32;
-    private float lastSafeX;
-    private float lastSafeY;
-    private int stuckCounter = 0;
-    private static final int STUCK_THRESHOLD = 90;
+    private ArrayList<Rectangle> obstacles;
 
     public Car(int startX, int startY, CarParameters carParameters) {
+        this.collisionHandler = new CollisionHandler(this);
         this.x = startX - carModel.getIconWidth() / 2;
         this.y = startY - carModel.getIconHeight() / 2;
-        this.lastSafeX = this.x;
-        this.lastSafeY = this.y;
         this.carInputHandler = new CarInputHandler(carParameters);
         this.hitbox = new Rectangle((int) x, (int) y, carModel.getIconWidth(), carModel.getIconHeight());
         this.obstacles = new ArrayList<>();
     }
 
-    private boolean isCompletelyOnRoad(char currentTile) {
-        int leftTile = (int)((x) / TILE_SIZE);
-        int rightTile = (int)((x + carModel.getIconWidth()) / TILE_SIZE);
-        int topTile = (int)((y) / TILE_SIZE);
-        int bottomTile = (int)((y + carModel.getIconHeight()) / TILE_SIZE);
 
-        boolean foundValidTile = false;
-        for (int tileX = leftTile; tileX <= rightTile; tileX++) {
-            for (int tileY = topTile; tileY <= bottomTile; tileY++) {
-                if (isOnRoadOrGroundTile(currentTile)) {
-                    foundValidTile = true;
-                }
-            }
-        }
-        return foundValidTile;
+    public ImageIcon getCarModel() {
+        return carModel;
     }
 
     public void update() {
@@ -59,90 +41,31 @@ public class Car {
         float previousY = y;
 
         carInputHandler.update();
-
         TopDownCarController controller = carInputHandler.getTopDownCarController();
         controller.applySteering();
         controller.applyEngineForce();
 
         Vector2 velocity = controller.getVelocity();
+        float stepX = velocity.x * VELOCITY_SCALE / 5; // We divide step into 5 mini steps
+        float stepY = velocity.y * VELOCITY_SCALE / 5;
 
-        if (isCompletelyOnRoad(currentPositionTile)) {
-            // Try moving
-            x += velocity.x * VELOCITY_SCALE;
-            y += velocity.y * VELOCITY_SCALE;
+        for (int i = 0; i < 5; i++) {
+            // Update step position
+            x += stepX;
+            y += stepY;
 
-            // Check for collisions
-            boolean collision = false;
-            for (Rectangle obstacle : obstacles) {
-                if (isCollidingWithObstacle(obstacle)) {
-                    collision = true;
+            // Update hitbox
+            hitbox.setBounds((int) x, (int) y, carModel.getIconWidth(), carModel.getIconHeight());
 
-                    // Calculate push direction
-                    float centerX = obstacle.x + obstacle.width / 2;
-                    float centerY = obstacle.y + obstacle.height / 2;
-                    float dirX = x - centerX;
-                    float dirY = y - centerY;
+            // Handle collision
+            Vector2 collision = collisionHandler.handleCollisions(
+                    obstacles, x, y, previousX, previousY, controller
+            );
 
-                    // Normalize direction
-                    float length = (float) Math.sqrt(dirX * dirX + dirY * dirY);
-                    if (length > 0) {
-                        dirX /= length;
-                        dirY /= length;
+            x = collision.x;
+            y = collision.y;
 
-                        // Push away from obstacle
-                        x = previousX + dirX * BOUNCE_FACTOR;
-                        y = previousY + dirY * BOUNCE_FACTOR;
-                    } else {
-                        x = previousX;
-                        y = previousY;
-                    }
-
-                    // Reduce velocity
-                    controller.setVelocity(controller.getVelocity().multiply(0.5f));
-                    stuckCounter++;
-                    break;
-                }
-            }
-
-            if (!collision) {
-                controller.setVelocity(velocity);
-                lastSafeX = x;
-                lastSafeY = y;
-                stuckCounter = 0;
-            }
-
-            if (stuckCounter > STUCK_THRESHOLD) {
-                x = lastSafeX;
-                y = lastSafeY;
-                controller.stopCar();
-                stuckCounter = 0;
-            }
-        } else {
-            x = previousX;
-            y = previousY;
-            controller.stopCar();
-
-            stuckCounter++;
-            if (stuckCounter > STUCK_THRESHOLD) {
-                x = lastSafeX;
-                y = lastSafeY;
-                controller.stopCar();
-                stuckCounter = 0;
-            }
         }
-    }
-
-    public boolean isCollidingWithObstacle(Rectangle obstacle) {
-        AffineTransform transform = new AffineTransform();
-        transform.translate(x + carModel.getIconWidth() / 2, y + carModel.getIconHeight() / 2);
-        transform.rotate(Math.toRadians(carInputHandler.topDownCarController.rotationAngle));
-
-        Shape rotatedHitbox = transform.createTransformedShape(
-                new Rectangle(-carModel.getIconWidth() / 2, -carModel.getIconHeight() / 2,
-                        carModel.getIconWidth(), carModel.getIconHeight())
-        );
-
-        return rotatedHitbox.intersects(obstacle);
     }
 
     public void draw(Graphics2D g2d) {
@@ -175,9 +98,6 @@ public class Car {
         obstacles.add(obstacle);
     }
 
-    public void clearObstacles() {
-        obstacles.clear();
-    }
 
     public void handleKeyPressed(int keyCode) {
         carInputHandler.handleKeyPressed(keyCode);
