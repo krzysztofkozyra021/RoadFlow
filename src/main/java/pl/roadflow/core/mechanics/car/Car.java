@@ -20,7 +20,6 @@ public class Car {
     private ImageIcon carModel = new ImageIcon(GameConsts.CAR_FILE_PATH);
     private char currentPositionTile = ' ';
     private Rectangle hitbox;
-    private ArrayList<Rectangle> obstacles;
 
     public Car(int startX, int startY, CarParameters carParameters) {
         this.collisionHandler = new CollisionHandler(this);
@@ -28,7 +27,6 @@ public class Car {
         this.y = startY - carModel.getIconHeight() / 2;
         this.carInputHandler = new CarInputHandler(carParameters);
         this.hitbox = new Rectangle((int) x, (int) y, carModel.getIconWidth(), carModel.getIconHeight());
-        this.obstacles = new ArrayList<>();
     }
 
 
@@ -59,7 +57,7 @@ public class Car {
 
             // Handle collision
             Vector2 collision = collisionHandler.handleCollisions(
-                    obstacles, x, y, previousX, previousY, controller
+                     x, y, previousX, previousY, controller
             );
 
             x = collision.x;
@@ -82,20 +80,9 @@ public class Car {
             g2d.setStroke(new BasicStroke(2));
             g2d.draw(new Rectangle(-carModel.getIconWidth() / 2, -carModel.getIconHeight() / 2,
                     carModel.getIconWidth(), carModel.getIconHeight()));
-
-            // Draw obstacles
-            g2d.setTransform(old);
-            g2d.setColor(Color.BLUE);
-            for (Rectangle obstacle : obstacles) {
-                g2d.draw(obstacle);
-            }
         }
 
         g2d.setTransform(old);
-    }
-
-    public void addObstacle(Rectangle obstacle) {
-        obstacles.add(obstacle);
     }
 
 

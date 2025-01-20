@@ -1,7 +1,9 @@
 package src.main.java.pl.roadflow.core.mechanics.car.physics;
 
+import org.w3c.dom.css.Rect;
 import src.main.java.pl.roadflow.core.mechanics.car.Car;
 import src.main.java.pl.roadflow.core.mechanics.car.controller.impl.TopDownCarController;
+import src.main.java.pl.roadflow.ui.screens.GameScreen;
 import src.main.java.pl.roadflow.utils.Vector2;
 
 import javax.swing.*;
@@ -17,10 +19,10 @@ public class CollisionHandler {
         this.car = car;
     }
 
-    public Vector2 handleCollisions(ArrayList<Rectangle> obstacles, float x, float y, float previousX, float previousY,
+    public Vector2 handleCollisions(float x, float y, float previousX, float previousY,
                                     TopDownCarController controller) {
+        ArrayList<Rectangle> obstacles = GameScreen.getMapObstacles();
         Vector2 position = new Vector2(x, y);
-
         for (Rectangle obstacle : obstacles) {
             if (isCollidingWithObstacle(obstacle, x, y, car.getCarModel(), controller.getRotationAngle())) {
                 position = calculateCollisionResponse(previousX, previousY, x, y, obstacle, controller);
