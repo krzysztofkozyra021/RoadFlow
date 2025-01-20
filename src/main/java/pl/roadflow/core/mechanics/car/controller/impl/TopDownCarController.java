@@ -5,14 +5,10 @@ import src.main.java.pl.roadflow.core.mechanics.car.controller.IVehiclePhysics;
 import src.main.java.pl.roadflow.utils.Vector2;
 
 public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
+
     // Vehicle dynamics constants
-    public float accelerationFactor = 0.005f;    // Base acceleration force
     public float turnFactor = 10.0f;            // Base turning rate
     public float currentSpeed = 0.0f;          // Current vehicle speed
-    private float minSpeedToTurn = 0.5f;       // Minimum speed required for turning
-    private float driftFactor = 0.95f;         // How much lateral velocity is preserved (lower = more drift)
-    private float maxSpeed = 20f;             // Maximum vehicle speed
-    private float drag = 0.98f;                // Air resistance (higher = less drag)
     private float lateralDrag = 0.9f;          // Lateral movement resistance
 
 
@@ -33,7 +29,7 @@ public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
 
         float currentForwardSpeed = Vector2.dot(velocity, forwardDir);
         float accelerationRoom = maxSpeed - Math.abs(currentForwardSpeed);
-        float actualAcceleration = accelerationInput * accelerationFactor * accelerationRoom;
+        float actualAcceleration = accelerationInput * (accelerationFactor / 100) * accelerationRoom;
 
         Vector2 engineForceVector = forwardDir.multiply(actualAcceleration);
         velocity = velocity.add(engineForceVector);
