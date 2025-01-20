@@ -143,8 +143,6 @@ public class GameScreen extends JFrame {
             while ((line = reader.readLine()) != null) {
                 mapData.add(line);
             }
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

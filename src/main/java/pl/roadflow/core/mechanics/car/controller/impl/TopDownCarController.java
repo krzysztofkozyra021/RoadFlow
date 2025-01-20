@@ -11,7 +11,7 @@ public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
     private DriftPhysics driftPhysics;
     CarParameters carParameters;
     // Vehicle dynamics constants
-    public float turnFactor = 10.0f;            // Base turning rate
+    public float turnFactor = 6.0f;            // Base turning rate
     public float currentSpeed = 0.0f;          // Current vehicle speed
     private float lateralDrag = 1.02f;          // Lateral movement resistance (More = More drift)
 

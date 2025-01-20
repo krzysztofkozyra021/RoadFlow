@@ -6,7 +6,7 @@ import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 public class SportCar extends Car {
     private static CarParameters getDefaultSportCarParams() {
         return new CarParameters(
-                0.4f,
+                0.7f,
                 0.5f,
                 0.96f,
                 20f,
