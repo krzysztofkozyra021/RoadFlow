@@ -1,6 +1,5 @@
 package src.main.java.pl.roadflow.core.mechanics.car.physics;
 
-import org.w3c.dom.css.Rect;
 import src.main.java.pl.roadflow.core.mechanics.car.Car;
 import src.main.java.pl.roadflow.core.mechanics.car.controller.impl.TopDownCarController;
 import src.main.java.pl.roadflow.ui.screens.GameScreen;
@@ -30,6 +29,14 @@ public class CollisionHandler {
                 return position;
             }
         }
+
+        if (isCollidingWithFrame(x, y, car.getCarModel(), controller.getRotationAngle())) {
+            position = handleFrameCollision(x, y, controller);
+            stuckCounter++;
+            return position;
+        }
+
+
 
         stuckCounter = 0;
         return position;
@@ -73,5 +80,39 @@ public class CollisionHandler {
 
         return rotatedHitbox.intersects(obstacle);
     }
+
+    private boolean isCollidingWithFrame(float x, float y, ImageIcon carModel, float rotationAngle) {
+        AffineTransform transform = new AffineTransform();
+        transform.translate(x + carModel.getIconWidth() / 2.0, y + carModel.getIconHeight() / 2.0);
+        transform.rotate(Math.toRadians(rotationAngle));
+
+        Rectangle carBounds = new Rectangle(-carModel.getIconWidth() / 2, -carModel.getIconHeight() / 2,
+                carModel.getIconWidth(), carModel.getIconHeight());
+        Shape rotatedHitbox = transform.createTransformedShape(carBounds);
+        Rectangle bounds = rotatedHitbox.getBounds();
+
+        Rectangle frameBounds = GameScreen.getFrameBounds();
+        return bounds.x < 0 ||
+                bounds.y < 0 ||
+                bounds.x + bounds.width > frameBounds.width ||
+                bounds.y + bounds.height > frameBounds.height;
+    }
+
+    private Vector2 handleFrameCollision(float x, float y,
+                                         TopDownCarController controller) {
+        Rectangle frameBounds = GameScreen.getFrameBounds();
+
+        // New position, make sure that car stays in frame
+        float newX = Math.max(0, Math.min(x, frameBounds.width - car.getCarModel().getIconWidth()));
+        float newY = Math.max(0, Math.min(y, frameBounds.height - car.getCarModel().getIconHeight()));
+
+        // If position changed, there's collision
+        if (newX != x || newY != y) {
+            controller.setVelocity(controller.getVelocity().multiply(0.5f));
+        }
+
+        return new Vector2(newX, newY);
+    }
+
 
 }

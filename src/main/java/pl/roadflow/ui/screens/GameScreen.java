@@ -21,6 +21,7 @@ public class GameScreen extends JFrame {
     public final int WIDTH = 60;
     public final int HEIGHT = 33;
     public final int TILE_SIZE = 32;
+    private static Rectangle frameBounds;
     public ArrayList<Character> mapData;
     public static ArrayList<Rectangle> mapObstacles;
     private Car car;
@@ -34,7 +35,7 @@ public class GameScreen extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
-
+        frameBounds = new Rectangle(0, 0, WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
         mapData = new ArrayList<>();
         mapObstacles = new ArrayList<>();
 
@@ -166,5 +167,9 @@ public class GameScreen extends JFrame {
 
     public static ArrayList<Rectangle> getMapObstacles() {
         return mapObstacles;
+    }
+
+    public static Rectangle getFrameBounds() {
+        return frameBounds;
     }
 }
