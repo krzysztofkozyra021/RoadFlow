@@ -2,6 +2,7 @@ package src.main.java.pl.roadflow.core.mechanics.car;
 
 import src.main.java.pl.roadflow.core.mechanics.car.controller.CarInputHandler;
 import src.main.java.pl.roadflow.core.mechanics.car.controller.impl.TopDownCarController;
+import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import src.main.java.pl.roadflow.utils.Vector2;
 import src.main.java.pl.roadflow.utils.consts.GameConsts;
 
@@ -26,12 +27,12 @@ public class Car {
     private int stuckCounter = 0;
     private static final int STUCK_THRESHOLD = 90;
 
-    public Car(int startX, int startY) {
+    public Car(int startX, int startY, CarParameters carParameters) {
         this.x = startX - carModel.getIconWidth() / 2;
         this.y = startY - carModel.getIconHeight() / 2;
         this.lastSafeX = this.x;
         this.lastSafeY = this.y;
-        this.carInputHandler = new CarInputHandler();
+        this.carInputHandler = new CarInputHandler(carParameters);
         this.hitbox = new Rectangle((int) x, (int) y, carModel.getIconWidth(), carModel.getIconHeight());
         this.obstacles = new ArrayList<>();
     }
@@ -59,7 +60,7 @@ public class Car {
 
         carInputHandler.update();
 
-        TopDownCarController controller = carInputHandler.topDownCarController;
+        TopDownCarController controller = carInputHandler.getTopDownCarController();
         controller.applySteering();
         controller.applyEngineForce();
 

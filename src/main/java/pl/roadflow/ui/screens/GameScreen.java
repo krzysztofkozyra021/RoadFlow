@@ -1,6 +1,7 @@
 package src.main.java.pl.roadflow.ui.screens;
 
 import src.main.java.pl.roadflow.core.mechanics.car.Car;
+import src.main.java.pl.roadflow.core.mechanics.car.carTypes.SportCar;
 import src.main.java.pl.roadflow.utils.consts.GameConsts;
 import src.main.java.pl.roadflow.utils.consts.MapTileConsts;
 
@@ -39,8 +40,7 @@ public class GameScreen extends JFrame {
         getStartTilePosition();
 
         // Spawn Car at the S (Start) tile
-
-        car = new Car((int) startTilePosition.getX(), (int) startTilePosition.getY());
+        car = new SportCar((int) startTilePosition.getX(), (int) startTilePosition.getY());
         addObstaclesToCar();
 
         // Add key listener to the window

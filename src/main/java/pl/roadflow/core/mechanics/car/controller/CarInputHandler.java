@@ -1,6 +1,7 @@
 package src.main.java.pl.roadflow.core.mechanics.car.controller;
 
 import src.main.java.pl.roadflow.core.mechanics.car.controller.impl.TopDownCarController;
+import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import src.main.java.pl.roadflow.utils.Vector2;
 
 import java.awt.event.KeyEvent;
@@ -10,9 +11,13 @@ public class CarInputHandler {
     private Vector2 inputVector;
     private boolean upPressed, downPressed, leftPressed, rightPressed;
 
-    public CarInputHandler() {
-        topDownCarController = new TopDownCarController();
+    public CarInputHandler(CarParameters carParameters) {
+        topDownCarController = new TopDownCarController(carParameters);
         inputVector = new Vector2();
+    }
+
+    public TopDownCarController getTopDownCarController() {
+        return topDownCarController;
     }
 
     public Vector2 getInputVector() {

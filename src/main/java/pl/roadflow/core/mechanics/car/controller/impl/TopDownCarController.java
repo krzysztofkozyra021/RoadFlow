@@ -2,9 +2,12 @@ package src.main.java.pl.roadflow.core.mechanics.car.controller.impl;
 
 import src.main.java.pl.roadflow.core.mechanics.car.controller.IVehicleInput;
 import src.main.java.pl.roadflow.core.mechanics.car.controller.IVehiclePhysics;
+import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import src.main.java.pl.roadflow.utils.Vector2;
 
 public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
+
+    CarParameters carParameters;
 
     // Vehicle dynamics constants
     public float turnFactor = 10.0f;            // Base turning rate
@@ -19,19 +22,17 @@ public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
     private Vector2 velocity = new Vector2(0, 0); // Current velocity vector
     Vector2 inputVector;                       // Raw input vector
 
+    public TopDownCarController(CarParameters carParameters) {
+        this.carParameters = carParameters;
+    }
+
     @Override
     public void applyEngineForce() {
-        float angleInRadians = (float)Math.toRadians(rotationAngle);
-        Vector2 forwardDir = new Vector2(
-                (float)Math.cos(angleInRadians),  // We use cos for x because front of car is facing right
-                (float)Math.sin(angleInRadians)   // and sin for y
-        );
 
-        float currentForwardSpeed = Vector2.dot(velocity, forwardDir);
-        float accelerationRoom = maxSpeed - Math.abs(currentForwardSpeed);
-        float actualAcceleration = accelerationInput * (accelerationFactor / 100) * accelerationRoom;
-
-        Vector2 engineForceVector = forwardDir.multiply(actualAcceleration);
+        float maxSpeed = carParameters.getMaxSpeed();
+        float accelerationFactor = carParameters.getAccelerationFactor();
+        float drag = carParameters.getDrag();
+        Vector2 engineForceVector = getEngineForceVector(maxSpeed, accelerationFactor);
         velocity = velocity.add(engineForceVector);
 
         applyDriftPhysics();
@@ -45,6 +46,22 @@ public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
         }
 
         currentSpeed = velocity.magnitude();
+    }
+
+    private Vector2 getEngineForceVector(float maxSpeed, float accelerationFactor) {
+
+        float angleInRadians = (float)Math.toRadians(rotationAngle);
+        Vector2 forwardDir = new Vector2(
+                (float)Math.cos(angleInRadians),  // We use cos for x because front of car is facing right
+                (float)Math.sin(angleInRadians)   // and sin for y
+        );
+
+        float currentForwardSpeed = Vector2.dot(velocity, forwardDir);
+        float accelerationRoom = maxSpeed - Math.abs(currentForwardSpeed);
+        float actualAcceleration = accelerationInput * (accelerationFactor / 100) * accelerationRoom;
+
+        Vector2 engineForceVector = forwardDir.multiply(actualAcceleration);
+        return engineForceVector;
     }
 
     private void applyDriftPhysics() {
@@ -63,7 +80,7 @@ public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
         float forwardSpeed = Vector2.dot(velocity, forward);
         float lateralSpeed = Vector2.dot(velocity, right);
 
-        float driftedLateralSpeed = lateralSpeed * driftFactor;
+        float driftedLateralSpeed = lateralSpeed * carParameters.getDriftFactor();
 
         if (Math.abs(accelerationInput) < 0.1f && Math.abs(forwardSpeed) > 0.5f) {
             driftedLateralSpeed *= lateralDrag;
@@ -74,10 +91,10 @@ public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
 
     @Override
     public void applySteering() {
-        if (currentSpeed < minSpeedToTurn) return;
+        if (currentSpeed < carParameters.getMinSpeedToTurn()) return;
 
         // Calculate speed-based steering sensitivity
-        float speedFactor = currentSpeed / maxSpeed;
+        float speedFactor = currentSpeed / carParameters.getMaxSpeed();
         speedFactor = Math.max(0.2f, Math.min(speedFactor, 1.0f));
 
         // Apply steering with drift compensation
