@@ -22,7 +22,7 @@ public class GameScreen extends JFrame {
     public final int HEIGHT = 33;
     public final int TILE_SIZE = 32;
     private static Rectangle frameBounds;
-    public ArrayList<Character> mapData;
+    public ArrayList<Integer> mapData;
     public static ArrayList<Rectangle> mapObstacles;
     private Car car;
     private Timer gameTimer;
@@ -73,7 +73,7 @@ public class GameScreen extends JFrame {
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
                 int index = y * WIDTH + x;
-                if (index < mapData.size() && mapData.get(index) == 'S') {
+                if (index < mapData.size() && mapData.get(index) == 8) {
                     startTilePosition.setLocation(x * TILE_SIZE, y * TILE_SIZE);
                     return;
                 }
@@ -94,8 +94,8 @@ public class GameScreen extends JFrame {
             for (int x = 0; x < WIDTH; x++) {
                 int index = y * WIDTH + x;
                 if (index < mapData.size()) {
-                    char tileChar = mapData.get(index);
-                    ImageIcon tileIcon = mapTileConsts.getMapTileIcons().get(tileChar);
+                    int tileNumber = mapData.get(index);
+                    ImageIcon tileIcon = mapTileConsts.getMapTileIcons().get(tileNumber);
                     if (tileIcon != null) {
                         offgc.drawImage(
                                 tileIcon.getImage(),
@@ -124,11 +124,14 @@ public class GameScreen extends JFrame {
 
     public void loadMapData() {
         try (BufferedReader reader = new BufferedReader(new FileReader(gameConsts.MAP_FILE_PATH))) {
-            int character;
-            while ((character = reader.read()) != -1) {
-                // Skip newline and carriage return characters
-                if (character != '\n' && character != '\r') {
-                    mapData.add((char) character);
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] tiles = line.split(",");
+                for (String tile : tiles) {
+                    tile = tile.trim();
+                    if (!tile.isEmpty()) {
+                        mapData.add(Integer.parseInt(tile));
+                    }
                 }
             }
         } catch (IOException e) {
@@ -152,7 +155,7 @@ public class GameScreen extends JFrame {
         }
     }
 
-    public char getTileAtPosition(int x, int y) {
+    public Integer getTileAtPosition(int x, int y) {
         int tileX = x / TILE_SIZE;
         int tileY = y / TILE_SIZE;
         int index = tileY * WIDTH + tileX;
@@ -161,7 +164,7 @@ public class GameScreen extends JFrame {
             return mapData.get(index);
         }
 
-        return 'G';
+        return 6;
     }
 
 

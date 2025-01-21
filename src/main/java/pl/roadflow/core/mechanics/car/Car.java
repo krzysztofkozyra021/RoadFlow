@@ -10,7 +10,6 @@ import src.main.java.pl.roadflow.utils.consts.GameConsts;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
 
 public class Car {
     private CarInputHandler carInputHandler;
@@ -18,7 +17,7 @@ public class Car {
     private float x, y;
     private static final float VELOCITY_SCALE = 1.0f;
     private ImageIcon carModel = new ImageIcon(GameConsts.CAR_FILE_PATH);
-    private char currentPositionTile = ' ';
+    private int currentPositionTile;
     private Rectangle hitbox;
 
     public Car(int startX, int startY, CarParameters carParameters) {
@@ -97,7 +96,7 @@ public class Car {
     public float getX() { return x; }
     public float getY() { return y; }
 
-    public char setCurrentPositionTile(char tile) {
+    public int setCurrentPositionTile(int tile) {
         return currentPositionTile = tile;
     }
 
