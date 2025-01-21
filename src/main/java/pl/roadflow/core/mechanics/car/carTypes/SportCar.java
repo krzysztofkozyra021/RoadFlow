@@ -10,7 +10,7 @@ public class SportCar extends Car {
                 0.5f,
                 0.96f,
                 20f,
-                0.99f
+                0.96f
         );
     }
 

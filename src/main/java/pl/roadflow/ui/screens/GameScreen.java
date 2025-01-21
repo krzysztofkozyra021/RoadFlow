@@ -86,6 +86,9 @@ public class GameScreen extends JFrame {
         Image offscreen = createImage(getWidth(), getHeight());
         Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
 
+        offgc.setColor(new Color(46, 72, 24)); // Ciemna zieleń z obrazka
+        offgc.fillRect(0, 0, getWidth(), getHeight());
+
         offgc.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
