@@ -1,7 +1,12 @@
 package src.main.java.pl.roadflow.ui.screens;
 
+import src.main.java.pl.roadflow.utils.consts.GameConsts;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.EventListener;
 import java.util.HashMap;
 
 public class CarChangeScreen extends JFrame {
@@ -25,9 +30,17 @@ public class CarChangeScreen extends JFrame {
     private void addPanels(JPanel backgroundPanel) {
         for (int i = 0; i < 20; i++) {
             JPanel panel = new JPanel();
-            panel.setName("car" + (i+1));
+            String car = "src/main/java/pl/roadflow/assets/cars/car"+(i + 1)+"_red.png";
             panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             panel.setBackground(new Color(0, 0, 0, 0));
+            panel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    GameConsts.CAR_FILE_PATH = car;
+                    GameScreen gameScreen = new GameScreen();
+                    dispose();
+                }
+            });
             backgroundPanel.add(panel);
         }
     }
