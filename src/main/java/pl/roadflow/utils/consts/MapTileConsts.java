@@ -9,7 +9,8 @@ import java.util.HashMap;
  */
 public class MapTileConsts {
 
-    private static final String ASSET_FOLDER_PATH = "src/main/java/pl/roadflow/assets/de_dust/";
+    private static final String ASSET_TILES_FOLDER_PATH = "src/main/java/pl/roadflow/assets/tiles/";
+    private static final String ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH = "src/main/java/pl/roadflow/assets/objectsAndDecoration/";
     private HashMap<Integer, ImageIcon> mapTileIcons;
     private ArrayList<Integer> obstacleTiles;
 
@@ -37,7 +38,8 @@ public class MapTileConsts {
                     !tile.equals(5) &&    // D - road horizontal
                     !tile.equals(6) &&    // G - ground
                     !tile.equals(7) &&    // P - road vertical
-                    !tile.equals(8))      // S - start line
+                    !tile.equals(8) &&     // S - start line
+                    !tile.equals(15))
             {
                 obstacleTiles.add(tile);
             }
@@ -46,20 +48,70 @@ public class MapTileConsts {
 
     private void setMapTileIcons() {
         try {
-            mapTileIcons.put(1, new ImageIcon(ASSET_FOLDER_PATH + "corner_ne.png")); // Corner NE
-            mapTileIcons.put(2, new ImageIcon(ASSET_FOLDER_PATH + "corner_se.png")); // Corner SE
-            mapTileIcons.put(3, new ImageIcon(ASSET_FOLDER_PATH + "corner_sw.png")); // Corner SW
-            mapTileIcons.put(4, new ImageIcon(ASSET_FOLDER_PATH + "corner_nw.png")); // Corner NW
-            mapTileIcons.put(5, new ImageIcon(ASSET_FOLDER_PATH + "road_horizontal.png")); // Road horizontal
-            mapTileIcons.put(6, new ImageIcon(ASSET_FOLDER_PATH + "ground.png")); // Ground
-            mapTileIcons.put(9, new ImageIcon(ASSET_FOLDER_PATH + "house.png")); // House (obstacle)
-            mapTileIcons.put(7, new ImageIcon(ASSET_FOLDER_PATH + "road_vertical.png")); // Road vertical
-            mapTileIcons.put(8, new ImageIcon(ASSET_FOLDER_PATH + "start_line.png")); // Start Line
-            mapTileIcons.put(10, new ImageIcon(ASSET_FOLDER_PATH + "tree.png")); // Tree (obstacle)
-            mapTileIcons.put(11, new ImageIcon(ASSET_FOLDER_PATH + "fan_sector1.png")); // Fan sector 1 (obstacle)
-            mapTileIcons.put(12, new ImageIcon(ASSET_FOLDER_PATH + "fan_sector2.png")); // Fan sector 2 (obstacle)
-            mapTileIcons.put(13, new ImageIcon(ASSET_FOLDER_PATH + "fan_sector3.png")); // Fan sector 3 (obstacle)
-            mapTileIcons.put(14, new ImageIcon(ASSET_FOLDER_PATH + "fan_sector4.png")); // Fan sector 4 (obstacle)
+            // TILES ICONS
+            mapTileIcons.put(1, new ImageIcon(ASSET_TILES_FOLDER_PATH + "grass.png"));
+            mapTileIcons.put(2, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_dirt_01.png"));
+            mapTileIcons.put(3, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_dirt_02.png"));
+            mapTileIcons.put(4, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_dirt_03.png"));
+            mapTileIcons.put(5, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_dirt_04.png"));
+            mapTileIcons.put(6, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_jump_01.png"));
+            mapTileIcons.put(7, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_jump_02.png"));
+            mapTileIcons.put(8, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_11.png"));
+            mapTileIcons.put(9, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve1_00.png"));
+            mapTileIcons.put(10, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve1_01.png"));
+            mapTileIcons.put(11, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve1_02.png"));
+            mapTileIcons.put(12, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve1_03.png"));
+            mapTileIcons.put(13, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve2_00.png"));
+            mapTileIcons.put(14, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve2_01.png"));
+            mapTileIcons.put(15, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve3_00.png"));
+            mapTileIcons.put(16, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve3_01.png"));
+            mapTileIcons.put(17, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve4.png"));
+            mapTileIcons.put(18, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_fill.png"));
+            mapTileIcons.put(19, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_side.png"));
+            mapTileIcons.put(20, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_side_right.png"));
+            mapTileIcons.put(21, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_03.png"));
+            mapTileIcons.put(22, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_04.png"));
+            mapTileIcons.put(23, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_05.png"));
+            mapTileIcons.put(24, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_06.png"));
+            mapTileIcons.put(25, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_07.png"));
+            mapTileIcons.put(26, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_08.png"));
+            mapTileIcons.put(27, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_curve1_00.png"));
+            mapTileIcons.put(28, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_curve1_01.png"));
+            mapTileIcons.put(29, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_curve2.png"));
+
+            // OBJECTS AND DECORATIONS ICONS
+            mapTileIcons.put(30, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "barrel_fallen.png"));
+            mapTileIcons.put(31, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "barrel_standup.png"));
+            mapTileIcons.put(32, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "block.png"));
+            mapTileIcons.put(33, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "cone.png"));
+            mapTileIcons.put(34, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "cone_standup.png"));
+            mapTileIcons.put(35, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "goal_standup.png"));
+            mapTileIcons.put(36, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "grassdecoration_01.png"));
+            mapTileIcons.put(37, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "grassdecoration_02.png"));
+            mapTileIcons.put(38, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "grassdecoration_03.png"));
+            mapTileIcons.put(39, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "grassdecoration_04.png"));
+            mapTileIcons.put(40, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "grassdecoration_05.png"));
+            mapTileIcons.put(41, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "grassdecoration_06.png"));
+            mapTileIcons.put(42, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "grassdecoration_07.png"));
+            mapTileIcons.put(43, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "grassdecoration_08.png"));
+            mapTileIcons.put(44, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "grassdecoration_09.png"));
+            mapTileIcons.put(45, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "grassdecoration_10.png"));
+            mapTileIcons.put(46, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "grassdecoration_11.png"));
+            mapTileIcons.put(47, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "grassdecoration_12.png"));
+            mapTileIcons.put(48, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "road_arrow.png"));
+            mapTileIcons.put(49, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "road_triangle.png"));
+            mapTileIcons.put(50, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "startarea.png"));
+            mapTileIcons.put(51, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "track_tileset_tiles_35.png"));
+            mapTileIcons.put(52, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "tree.png"));
+            mapTileIcons.put(53, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "tree_0001.png"));
+            mapTileIcons.put(54, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "tree_0010.png"));
+            mapTileIcons.put(55, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "tree_0100.png"));
+            mapTileIcons.put(56, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "tree_1000.png"));
+            mapTileIcons.put(57, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "waterstone_01.png"));
+            mapTileIcons.put(58, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "waterstone_02.png"));
+            mapTileIcons.put(59, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "waterstone_03.png"));
+
+
         } catch (Exception e) {
             throw new RuntimeException("Cant load image tiles: " + e.getMessage());
         }

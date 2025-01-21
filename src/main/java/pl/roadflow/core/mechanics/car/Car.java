@@ -70,7 +70,7 @@ public class Car {
 
         // Draw car
         g2d.translate(x + carModel.getIconWidth() / 2, y + carModel.getIconHeight() / 2);
-        g2d.rotate(Math.toRadians(carInputHandler.topDownCarController.rotationAngle));
+        g2d.rotate(Math.toRadians(90 + carInputHandler.topDownCarController.rotationAngle));
         carModel.paintIcon(null, g2d, -carModel.getIconWidth() / 2, -carModel.getIconHeight() / 2);
 
         // Draw debug visuals
