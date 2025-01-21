@@ -10,8 +10,9 @@ import java.util.HashMap;
 public class MapTileConsts {
 
     private static final String ASSET_FOLDER_PATH = "src/main/java/pl/roadflow/assets/de_dust/";
-    private HashMap<Character, ImageIcon> mapTileIcons;
-    private ArrayList<Character> obstacleTiles;
+    private HashMap<Integer, ImageIcon> mapTileIcons;
+    private ArrayList<Integer> obstacleTiles;
+
     public MapTileConsts() {
         mapTileIcons = new HashMap<>();
         obstacleTiles = new ArrayList<>();
@@ -19,24 +20,24 @@ public class MapTileConsts {
         setObstacleTiles();
     }
 
-    public HashMap<Character, ImageIcon> getMapTileIcons() {
+    public HashMap<Integer, ImageIcon> getMapTileIcons() {
         return mapTileIcons;
     }
 
-    public ArrayList<Character> getObstacleTiles() {
+    public ArrayList<Integer> getObstacleTiles() {
         return obstacleTiles;
     }
 
     public void setObstacleTiles() {
-        for (Character tile : mapTileIcons.keySet()) {
-            if (!tile.equals('1') &&
-                    !tile.equals('2') &&
-                    !tile.equals('3') &&
-                    !tile.equals('4') &&
-                    !tile.equals('D') &&
-                    !tile.equals('G') &&
-                    !tile.equals('P') &&
-                    !tile.equals('S'))
+        for (Integer tile : mapTileIcons.keySet()) {
+            if (!tile.equals(1) &&
+                    !tile.equals(2) &&
+                    !tile.equals(3) &&
+                    !tile.equals(4) &&
+                    !tile.equals(5) &&    // D - road horizontal
+                    !tile.equals(6) &&    // G - ground
+                    !tile.equals(7) &&    // P - road vertical
+                    !tile.equals(8))      // S - start line
             {
                 obstacleTiles.add(tile);
             }
@@ -45,20 +46,20 @@ public class MapTileConsts {
 
     private void setMapTileIcons() {
         try {
-            mapTileIcons.put('1', new ImageIcon(ASSET_FOLDER_PATH + "1.png")); // Corner NE
-            mapTileIcons.put('2', new ImageIcon(ASSET_FOLDER_PATH + "2.png")); // Corner SE
-            mapTileIcons.put('3', new ImageIcon(ASSET_FOLDER_PATH + "3.png")); // Corner SW
-            mapTileIcons.put('4', new ImageIcon(ASSET_FOLDER_PATH + "4.png")); // Corner NW
-            mapTileIcons.put('D', new ImageIcon(ASSET_FOLDER_PATH + "D.png")); // Road horizontal
-            mapTileIcons.put('G', new ImageIcon(ASSET_FOLDER_PATH + "G.png")); // Ground
-            mapTileIcons.put('H', new ImageIcon(ASSET_FOLDER_PATH + "H.png")); // House (obstacle)
-            mapTileIcons.put('P', new ImageIcon(ASSET_FOLDER_PATH + "P.png")); // Road vertical
-            mapTileIcons.put('S', new ImageIcon(ASSET_FOLDER_PATH + "S.png")); // Start Line
-            mapTileIcons.put('T', new ImageIcon(ASSET_FOLDER_PATH + "T.png")); // Tree (obstacle)
-            mapTileIcons.put('C', new ImageIcon(ASSET_FOLDER_PATH + "C.png")); // Fan sector 1 (obstacle)
-            mapTileIcons.put('V', new ImageIcon(ASSET_FOLDER_PATH + "V.png")); // Fan sector 2 (obstacle)
-            mapTileIcons.put('X', new ImageIcon(ASSET_FOLDER_PATH + "X.png")); // Fan sector 3 (obstacle)
-            mapTileIcons.put('Z', new ImageIcon(ASSET_FOLDER_PATH + "Z.png")); // Fan sector 4 (obstacle)
+            mapTileIcons.put(1, new ImageIcon(ASSET_FOLDER_PATH + "corner_ne.png")); // Corner NE
+            mapTileIcons.put(2, new ImageIcon(ASSET_FOLDER_PATH + "corner_se.png")); // Corner SE
+            mapTileIcons.put(3, new ImageIcon(ASSET_FOLDER_PATH + "corner_sw.png")); // Corner SW
+            mapTileIcons.put(4, new ImageIcon(ASSET_FOLDER_PATH + "corner_nw.png")); // Corner NW
+            mapTileIcons.put(5, new ImageIcon(ASSET_FOLDER_PATH + "road_horizontal.png")); // Road horizontal
+            mapTileIcons.put(6, new ImageIcon(ASSET_FOLDER_PATH + "ground.png")); // Ground
+            mapTileIcons.put(9, new ImageIcon(ASSET_FOLDER_PATH + "house.png")); // House (obstacle)
+            mapTileIcons.put(7, new ImageIcon(ASSET_FOLDER_PATH + "road_vertical.png")); // Road vertical
+            mapTileIcons.put(8, new ImageIcon(ASSET_FOLDER_PATH + "start_line.png")); // Start Line
+            mapTileIcons.put(10, new ImageIcon(ASSET_FOLDER_PATH + "tree.png")); // Tree (obstacle)
+            mapTileIcons.put(11, new ImageIcon(ASSET_FOLDER_PATH + "fan_sector1.png")); // Fan sector 1 (obstacle)
+            mapTileIcons.put(12, new ImageIcon(ASSET_FOLDER_PATH + "fan_sector2.png")); // Fan sector 2 (obstacle)
+            mapTileIcons.put(13, new ImageIcon(ASSET_FOLDER_PATH + "fan_sector3.png")); // Fan sector 3 (obstacle)
+            mapTileIcons.put(14, new ImageIcon(ASSET_FOLDER_PATH + "fan_sector4.png")); // Fan sector 4 (obstacle)
         } catch (Exception e) {
             throw new RuntimeException("Cant load image tiles: " + e.getMessage());
         }
