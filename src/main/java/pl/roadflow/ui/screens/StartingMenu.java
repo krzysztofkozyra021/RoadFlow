@@ -28,7 +28,7 @@ public class StartingMenu extends JFrame {
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GameScreen gameScreen = new GameScreen();
+                CarChangeScreen carChangeScreen = new CarChangeScreen();
                 setVisible(false);
             }
         });
