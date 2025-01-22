@@ -7,6 +7,8 @@ import src.main.java.pl.roadflow.utils.consts.MapTileConsts;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
@@ -14,6 +16,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GameScreen extends JFrame {
     MapTileConsts mapTileConsts = new MapTileConsts();
@@ -29,12 +33,20 @@ public class GameScreen extends JFrame {
     Point2D startTilePosition = new Point();
     public final String TITLE = "Road Flow";
 
+    // Buffering components
+    private Image offscreenBuffer;
+    private Graphics2D offscreenGraphics;
+
+    // Cache for tile images
+    private final Map<Integer, Image> tileImageCache = new HashMap<>();
+
     public GameScreen() {
         setTitle(TITLE);
         setSize(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
+
         frameBounds = new Rectangle(0, 0, WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
         mapData = new ArrayList<>();
         mapObstacles = new ArrayList<>();
@@ -42,9 +54,7 @@ public class GameScreen extends JFrame {
         loadMapData();
         getStartTilePosition();
 
-        // Spawn Car at the S (Start) tile
         car = new SportCar((int) startTilePosition.getX(), (int) startTilePosition.getY());
-
 
         addKeyListener(new KeyAdapter() {
             @Override
@@ -58,15 +68,40 @@ public class GameScreen extends JFrame {
             }
         });
 
+        // Initialize graphics after component is displayed
+        addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                initializeGraphics();
+                initializeTileCache();
+                removeComponentListener(this);
+            }
+        });
+
         gameTimer = new Timer(16, e -> {
-            car.update();
+            updateGame();
             repaint();
         });
-        gameTimer.start();
 
         setVisible(true);
         setFocusable(true);
         requestFocusInWindow();
+
+        // Start timer after everything is initialized
+        gameTimer.start();
+    }
+
+    private void initializeGraphics() {
+        if (offscreenBuffer == null) {
+            offscreenBuffer = createImage(getWidth(), getHeight());
+            if (offscreenBuffer != null) {
+                offscreenGraphics = (Graphics2D) offscreenBuffer.getGraphics();
+                offscreenGraphics.setRenderingHint(
+                        RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON
+                );
+            }
+        }
     }
 
     private void getStartTilePosition() {
@@ -81,31 +116,44 @@ public class GameScreen extends JFrame {
         }
     }
 
+    private void initializeTileCache() {
+        MapTileConsts mapTileConsts = new MapTileConsts();
+        for (Map.Entry<Integer, ImageIcon> entry : mapTileConsts.getMapTileIcons().entrySet()) {
+            Image scaledImage = entry.getValue().getImage()
+                    .getScaledInstance(TILE_SIZE, TILE_SIZE, Image.SCALE_SMOOTH);
+            tileImageCache.put(entry.getKey(), scaledImage);
+        }
+    }
+
+    private void updateGame() {
+        car.update();
+        car.setCurrentPositionTile(getTileAtPosition((int) car.getX(), (int) car.getY()));
+    }
+
+
     @Override
     public void paint(Graphics g) {
-        Image offscreen = createImage(getWidth(), getHeight());
-        Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
+        if (offscreenBuffer == null) {
+            initializeGraphics();
+            return;
+        }
 
-        offgc.setColor(new Color(46, 72, 24)); // Ciemna zieleń z obrazka
-        offgc.fillRect(0, 0, getWidth(), getHeight());
+        // Clear the buffer
+        offscreenGraphics.setColor(new Color(46, 72, 24));
+        offscreenGraphics.fillRect(0, 0, getWidth(), getHeight());
 
-        offgc.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
-
-        // Draw map
+        // Draw map using cached images
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
                 int index = y * WIDTH + x;
                 if (index < mapData.size()) {
                     int tileNumber = mapData.get(index);
-                    ImageIcon tileIcon = mapTileConsts.getMapTileIcons().get(tileNumber);
-                    if (tileIcon != null) {
-                        offgc.drawImage(
-                                tileIcon.getImage(),
+                    Image tileImage = tileImageCache.get(tileNumber);
+                    if (tileImage != null) {
+                        offscreenGraphics.drawImage(
+                                tileImage,
                                 x * TILE_SIZE,
                                 y * TILE_SIZE,
-                                TILE_SIZE,
-                                TILE_SIZE,
                                 null
                         );
                     }
@@ -113,16 +161,17 @@ public class GameScreen extends JFrame {
             }
         }
 
-        if(GameConsts.DEBUG_MODE == 1){
-            offgc.setColor(Color.BLUE);
+        if (GameConsts.DEBUG_MODE == 1) {
+            offscreenGraphics.setColor(Color.BLUE);
             for (Rectangle obstacle : mapObstacles) {
-                offgc.draw(obstacle);
+                offscreenGraphics.draw(obstacle);
             }
         }
 
-        car.draw(offgc);
-        car.setCurrentPositionTile(getTileAtPosition((int) car.getX(), (int) car.getY()));
-        g.drawImage(offscreen, 0, 0, this);
+        car.draw(offscreenGraphics);
+
+        // Draw the buffer to the screen
+        g.drawImage(offscreenBuffer, 0, 0, this);
     }
 
     public void loadMapData() {
