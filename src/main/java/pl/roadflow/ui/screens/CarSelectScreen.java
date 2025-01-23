@@ -5,23 +5,32 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 
 public class CarSelectScreen extends JFrame {
+    private static final Color BACKGROUND_COLOR = new Color(18, 18, 24);
+    private static final Color ACCENT_COLOR = new Color(79, 70, 229);
+    private static final Color HOVER_COLOR = new Color(99, 90, 255);
+    private static final Color SECONDARY_COLOR = new Color(30, 30, 40);
+    private static final Color TEXT_COLOR = new Color(229, 231, 235);
+    private static final Color STAT_BAR_FILLED = new Color(79, 70, 229);
+    private static final Color STAT_BAR_EMPTY = new Color(45, 45, 60);
+
     private JLabel carPreviewLabel;
     private JPanel statsPanel;
 
     public CarSelectScreen() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout(20, 20));
-        getContentPane().setBackground(Color.BLACK);
+        getContentPane().setBackground(BACKGROUND_COLOR);
 
         setupTitle();
         setupMainContent();
 
         GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         if (device.isFullScreenSupported()) {
-            this.setUndecorated(true);
+            setUndecorated(true);
             device.setFullScreenWindow(this);
         }
 
@@ -29,106 +38,126 @@ public class CarSelectScreen extends JFrame {
     }
 
     private void setupTitle() {
-        JLabel titleLabel = new JLabel("SELECT A CAR", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 48));
-        titleLabel.setForeground(Color.WHITE);
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
-        add(titleLabel, BorderLayout.NORTH);
+        JPanel titlePanel = new JPanel(new BorderLayout());
+        titlePanel.setBackground(SECONDARY_COLOR);
+        titlePanel.setBorder(BorderFactory.createEmptyBorder(25, 0, 25, 0));
+
+        JLabel titleLabel = new JLabel("SELECT YOUR CAR", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 42));
+        titleLabel.setForeground(TEXT_COLOR);
+        titlePanel.add(titleLabel, BorderLayout.CENTER);
+
+        add(titlePanel, BorderLayout.NORTH);
     }
 
     private void setupMainContent() {
-        JPanel mainPanel = new JPanel(new GridLayout(1, 2, 20, 0));
-        mainPanel.setBackground(Color.BLACK);
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(0, 20, 20, 20));
+        JPanel mainPanel = new JPanel(new GridLayout(1, 2, 40, 0));
+        mainPanel.setBackground(BACKGROUND_COLOR);
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 40, 40));
 
-        JPanel carsGrid = new JPanel(new GridLayout(4, 4, 7, 7));
-        carsGrid.setBackground(Color.BLACK);
-        carsGrid.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        // Left side with car grid remains the same
+        JPanel carsGrid = new JPanel(new GridLayout(4, 4, 12, 12));
+        carsGrid.setBackground(BACKGROUND_COLOR);
         addCarsFromImage(carsGrid);
 
-        // GridBagLayout ensures proper centering of the cars grid
         JPanel leftContainer = new JPanel(new GridBagLayout());
-        leftContainer.setBackground(Color.BLACK);
+        leftContainer.setBackground(BACKGROUND_COLOR);
         leftContainer.add(carsGrid);
         mainPanel.add(leftContainer);
 
-        JPanel rightPanel = new JPanel(new GridLayout(2, 1, 0, 10));
-        rightPanel.setBackground(Color.BLACK);
+        // New right panel with GridBagLayout for better centering
+        JPanel rightPanel = new JPanel(new GridBagLayout());
+        rightPanel.setBackground(BACKGROUND_COLOR);
+        rightPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
+        JPanel contentPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 0));
+        contentPanel.setBackground(BACKGROUND_COLOR);
+
+        // Smaller preview panel
         JPanel previewPanel = new JPanel(new BorderLayout());
-        previewPanel.setBackground(Color.BLACK);
+        previewPanel.setBackground(BACKGROUND_COLOR);
+        previewPanel.setPreferredSize(new Dimension(250, 250));
         carPreviewLabel = new JLabel("", SwingConstants.CENTER);
         previewPanel.add(carPreviewLabel, BorderLayout.CENTER);
 
-        JPanel statsContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        statsContainer.setBackground(Color.BLACK);
-
+        // Centered stats panel
         statsPanel = new JPanel();
         statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
-        statsPanel.setBackground(Color.BLACK);
+        statsPanel.setBackground(BACKGROUND_COLOR);
         statsPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-
         createStatBars();
-        statsContainer.add(statsPanel);
-        rightPanel.add(previewPanel);
-        rightPanel.add(statsContainer);
+
+        contentPanel.add(previewPanel);
+        contentPanel.add(statsPanel);
+        rightPanel.add(contentPanel);
 
         mainPanel.add(rightPanel);
         add(mainPanel);
     }
 
     private void createStatBars() {
-        createStatBar("Acceleration", 7);
-        createStatBar("Max Speed", 8);
-        createStatBar("Grip", 6);
+        createStatBar("ACCELERATION", 7);
+        createStatBar("TOP SPEED", 8);
+        createStatBar("HANDLING", 6);
     }
 
     private void createStatBar(String statName, int value) {
-        JPanel statPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
-        statPanel.setBackground(Color.BLACK);
+        JPanel statPanel = new JPanel();
+        statPanel.setLayout(new BoxLayout(statPanel, BoxLayout.Y_AXIS));
+        statPanel.setBackground(BACKGROUND_COLOR);
+        statPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+        statPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 
         JLabel nameLabel = new JLabel(statName);
-        nameLabel.setForeground(Color.WHITE);
-        nameLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-        nameLabel.setPreferredSize(new Dimension(80, 15));
+        nameLabel.setForeground(TEXT_COLOR);
+        nameLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
 
-        // Create a 10-segment progress bar
-        JPanel barsPanel = new JPanel(new GridLayout(1, 10, 2, 0));
-        barsPanel.setBackground(Color.BLACK);
-        barsPanel.setPreferredSize(new Dimension(150, 12));
+        JPanel barPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        for (int i = 0; i < 10; i++) {
-            JPanel bar = new JPanel();
-            bar.setPreferredSize(new Dimension(12, 8));
-            // Color segments up to the value yellow, remaining segments gray
-            bar.setBackground(i < value ? Color.YELLOW : new Color(50, 50, 50));
-            barsPanel.add(bar);
-        }
+                int width = getWidth();
+                int height = getHeight();
+
+                // Draw background bar
+                g2d.setColor(STAT_BAR_EMPTY);
+                g2d.fill(new RoundRectangle2D.Double(0, 0, width, height, height, height));
+
+                // Draw filled segments
+                g2d.setColor(STAT_BAR_FILLED);
+                int filledWidth = (int) ((value / 10.0) * width);
+                g2d.fill(new RoundRectangle2D.Double(0, 0, filledWidth, height, height, height));
+            }
+        };
+        barPanel.setPreferredSize(new Dimension(200, 8));
+        barPanel.setMaximumSize(new Dimension(200, 8));
+        barPanel.setBackground(SECONDARY_COLOR);
 
         statPanel.add(nameLabel);
-        statPanel.add(barsPanel);
+        statPanel.add(Box.createVerticalStrut(5));
+        statPanel.add(barPanel);
         statsPanel.add(statPanel);
-        statsPanel.add(Box.createVerticalStrut(5));
     }
 
     private void addCarsFromImage(JPanel panel) {
         ImageIcon carsIcon = new ImageIcon("src/main/java/pl/roadflow/assets/menu/Cars.png");
         Image carsImage = carsIcon.getImage();
 
-        // Assuming the sprite sheet is a 4x4 grid of car images
         int carWidth = carsImage.getWidth(null) / 4;
         int carHeight = carsImage.getHeight(null) / 4;
 
-        Border defaultBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-        Border selectedBorder = BorderFactory.createLineBorder(Color.YELLOW, 1);
+        Border defaultBorder = BorderFactory.createLineBorder(SECONDARY_COLOR, 2);
+        Border selectedBorder = BorderFactory.createLineBorder(ACCENT_COLOR, 2);
 
         for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 4; col++) {
                 JPanel carContainer = new JPanel(new GridBagLayout());
-                carContainer.setBackground(Color.BLACK);
+                carContainer.setBackground(SECONDARY_COLOR);
                 carContainer.setBorder(defaultBorder);
 
-                // Extract individual car image from sprite sheet
                 BufferedImage carImage = new BufferedImage(carWidth, carHeight, BufferedImage.TYPE_INT_ARGB);
                 Graphics2D g = carImage.createGraphics();
                 g.drawImage(carsImage, 0, 0, carWidth, carHeight,
@@ -144,24 +173,26 @@ public class CarSelectScreen extends JFrame {
                     @Override
                     public void mouseEntered(MouseEvent e) {
                         carContainer.setBorder(selectedBorder);
-                        carPreviewLabel.setIcon(new ImageIcon(carImage.getScaledInstance(200, 200, Image.SCALE_SMOOTH)));
+                        carContainer.setBackground(HOVER_COLOR);
+                        carPreviewLabel.setIcon(new ImageIcon(carImage.getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
                     }
 
                     @Override
                     public void mouseExited(MouseEvent e) {
                         carContainer.setBorder(defaultBorder);
+                        carContainer.setBackground(SECONDARY_COLOR);
                     }
 
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        // Reset background color for all car containers
                         for (Component comp : panel.getComponents()) {
                             if (comp instanceof JPanel) {
-                                comp.setBackground(Color.BLACK);
+                                comp.setBackground(SECONDARY_COLOR);
+                                ((JPanel) comp).setBorder(defaultBorder);
                             }
                         }
-                        // Highlight selected car
-                        carContainer.setBackground(new Color(30, 30, 30));
+                        carContainer.setBackground(ACCENT_COLOR);
+                        carContainer.setBorder(selectedBorder);
                     }
                 });
 
