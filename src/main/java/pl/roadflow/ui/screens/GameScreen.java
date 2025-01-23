@@ -17,7 +17,6 @@ import java.util.ArrayList;
 
 public class GameScreen extends JFrame {
     MapTileConsts mapTileConsts = new MapTileConsts();
-    GameConsts gameConsts = new GameConsts();
     public final int WIDTH = 60;
     public final int HEIGHT = 33;
     public final int TILE_SIZE = 32;
@@ -25,7 +24,6 @@ public class GameScreen extends JFrame {
     public ArrayList<Integer> mapData;
     public static ArrayList<Rectangle> mapObstacles;
     private Car car;
-    private Timer gameTimer;
     Point2D startTilePosition = new Point();
     public final String TITLE = "Road Flow";
 
@@ -42,9 +40,6 @@ public class GameScreen extends JFrame {
         loadMapData();
         getStartTilePosition();
 
-        // Spawn Car at the S (Start) tile
-        car = new SportCar((int) startTilePosition.getX(), (int) startTilePosition.getY());
-
 
         addKeyListener(new KeyAdapter() {
             @Override
@@ -58,11 +53,17 @@ public class GameScreen extends JFrame {
             }
         });
 
-        gameTimer = new Timer(16, e -> {
+        Timer gameTimer = new Timer(16, e -> {
             car.update();
             repaint();
         });
         gameTimer.start();
+
+        GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        if (device.isFullScreenSupported()) {
+            this.setUndecorated(true);
+            device.setFullScreenWindow(this);
+        }
 
         setVisible(true);
         setFocusable(true);
@@ -126,7 +127,7 @@ public class GameScreen extends JFrame {
     }
 
     public void loadMapData() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(gameConsts.MAP_FILE_PATH))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(GameConsts.MAP_FILE_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] tiles = line.split(",");
@@ -170,6 +171,9 @@ public class GameScreen extends JFrame {
         return 6;
     }
 
+    public void setCar(Car choosenCar) {
+        this.car = choosenCar;
+    }
 
     public static ArrayList<Rectangle> getMapObstacles() {
         return mapObstacles;

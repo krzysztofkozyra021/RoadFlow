@@ -23,14 +23,14 @@ public class CollisionHandler {
         ArrayList<Rectangle> obstacles = GameScreen.getMapObstacles();
         Vector2 position = new Vector2(x, y);
         for (Rectangle obstacle : obstacles) {
-            if (isCollidingWithObstacle(obstacle, x, y, car.getCarModel(), controller.getRotationAngle())) {
+            if (isCollidingWithObstacle(obstacle, x, y, car.getCarModelIcon(), controller.getRotationAngle())) {
                 position = calculateCollisionResponse(previousX, previousY, x, y, obstacle, controller);
                 stuckCounter++;
                 return position;
             }
         }
 
-        if (isCollidingWithFrame(x, y, car.getCarModel(), controller.getRotationAngle())) {
+        if (isCollidingWithFrame(x, y, car.getCarModelIcon(), controller.getRotationAngle())) {
             position = handleFrameCollision(x, y, controller);
             stuckCounter++;
             return position;
@@ -103,8 +103,8 @@ public class CollisionHandler {
         Rectangle frameBounds = GameScreen.getFrameBounds();
 
         // New position, make sure that car stays in frame
-        float newX = Math.max(0, Math.min(x, frameBounds.width - car.getCarModel().getIconWidth()));
-        float newY = Math.max(0, Math.min(y, frameBounds.height - car.getCarModel().getIconHeight()));
+        float newX = Math.max(0, Math.min(x, frameBounds.width - car.getCarModelIcon().getIconWidth()));
+        float newY = Math.max(0, Math.min(y, frameBounds.height - car.getCarModelIcon().getIconHeight()));
 
         // If position changed, there's collision
         if (newX != x || newY != y) {
