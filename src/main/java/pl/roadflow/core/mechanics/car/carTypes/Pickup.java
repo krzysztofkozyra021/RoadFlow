@@ -7,18 +7,19 @@ import javax.swing.*;
 
 public class Pickup extends Car {
     private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car11_armygreen.png");
-    private static CarParameters getDefaultSportCarParams() {
+    private static CarParameters getPickupParams() {
         return new CarParameters(
-                0.7f,
-                0.5f,
-                0.96f,
-                3f,
-                0.96f
+                0.65f,    // accelerationFactor (0.1 - 1.0) - strong utility acceleration
+                1.3f,     // minSpeedToTurn (0 - 2) - higher clearance turning
+                0.55f,    // driftFactor (0.5f-0.9f) - work-oriented stability
+                60f,      // maxSpeed (1 - 100) - capable hauling speed
+                0.08f,    // grip/friction (0.01 - 0.1) - rugged terrain grip
+                5f        // turnFactor (1 - 15) - utility-focused handling
         );
     }
 
     public Pickup() {
-        super(getDefaultSportCarParams(),carModel);
+        super(getPickupParams(),carModel);
     }
 
     public Pickup(CarParameters carParameters) {

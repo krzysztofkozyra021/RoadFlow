@@ -32,6 +32,9 @@ public class Vector2 {
     public Vector2 multiply(float scalar) {
         return new Vector2(this.x * scalar, this.y * scalar);
     }
+    public Vector2 divide(float scalar) {
+        return new Vector2(this.x / scalar, this.y / scalar);
+    }
 
     public float magnitude() {
         return (float) Math.sqrt(x * x + y * y);
