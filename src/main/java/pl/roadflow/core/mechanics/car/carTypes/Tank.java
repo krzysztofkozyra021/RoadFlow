@@ -7,18 +7,19 @@ import javax.swing.*;
 
 public class Tank extends Car {
     private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car9_armygreen.png");
-    private static CarParameters getDefaultSportCarParams() {
+    private static CarParameters getTankParams() {
         return new CarParameters(
-                0.7f,
-                0.5f,
-                0.96f,
-                3f,
-                0.96f
+                0.15f,  // accelerationFactor - heavy vehicle acceleration
+                0.25f,  // minSpeedToTurn - requires momentum to turn
+                0.01f,  // driftFactor - minimal track sliding
+                30f,   // maxSpeed - powerful but slow
+                0.1f,  // grip - maximum terrain grip
+                3f     // turnFactor - heavy, deliberate turning
         );
     }
 
     public Tank() {
-        super(getDefaultSportCarParams(),carModel);
+        super(getTankParams(),carModel);
     }
 
     public Tank(CarParameters carParameters) {
