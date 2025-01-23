@@ -25,7 +25,6 @@ public class CarSelectScreen extends JFrame {
         setLayout(new BorderLayout(20, 20));
         getContentPane().setBackground(BACKGROUND_COLOR);
 
-        setupTitle();
         setupMainContent();
 
         GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
@@ -37,32 +36,41 @@ public class CarSelectScreen extends JFrame {
         setVisible(true);
     }
 
-    private void setupTitle() {
-        JPanel titlePanel = new JPanel(new BorderLayout());
-        titlePanel.setBackground(SECONDARY_COLOR);
-        titlePanel.setBorder(BorderFactory.createEmptyBorder(25, 0, 25, 0));
-
-        JLabel titleLabel = new JLabel("SELECT YOUR CAR", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 42));
-        titleLabel.setForeground(TEXT_COLOR);
-        titlePanel.add(titleLabel, BorderLayout.CENTER);
-
-        add(titlePanel, BorderLayout.NORTH);
-    }
-
     private void setupMainContent() {
         JPanel mainPanel = new JPanel(new GridLayout(1, 2, 40, 0));
         mainPanel.setBackground(BACKGROUND_COLOR);
         mainPanel.setBorder(BorderFactory.createEmptyBorder(30, 40, 40, 40));
 
-        // Left side with car grid remains the same
+        // Left container
+        JPanel leftContainer = new JPanel(new GridBagLayout());
+        leftContainer.setBackground(BACKGROUND_COLOR);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        // Title
+        JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        titlePanel.setBackground(BACKGROUND_COLOR);
+        JLabel titleLabel = new JLabel("SELECT YOUR CAR");
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 36));
+        titleLabel.setForeground(TEXT_COLOR);
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+        titlePanel.add(titleLabel);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 20, 0);
+        leftContainer.add(titlePanel, gbc);
+
+        // Cars grid
         JPanel carsGrid = new JPanel(new GridLayout(4, 4, 12, 12));
         carsGrid.setBackground(BACKGROUND_COLOR);
         addCarsFromImage(carsGrid);
 
-        JPanel leftContainer = new JPanel(new GridBagLayout());
-        leftContainer.setBackground(BACKGROUND_COLOR);
-        leftContainer.add(carsGrid);
+        gbc.gridy = 1;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        leftContainer.add(carsGrid, gbc);
+
         mainPanel.add(leftContainer);
 
         // New right panel with GridBagLayout for better centering
