@@ -8,12 +8,18 @@ import java.awt.event.MouseEvent;
 public class StartingMenu extends JFrame {
     public StartingMenu() {
         setTitle("RoadFlow");
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
         add(new LeftMenuPanel(), BorderLayout.WEST);
         add(new RightImagePanel(), BorderLayout.CENTER);
+
+        GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        if (device.isFullScreenSupported()) {
+            this.setUndecorated(true);
+            device.setFullScreenWindow(this);
+        }
+
         setVisible(true);
     }
 }
@@ -103,7 +109,7 @@ class LeftMenuPanel extends JPanel {
         switch(text) {
             case "Start Game":
                 button.addActionListener(_ -> {
-                    new CarChangeScreen();
+                    new CarSelectScreen();
                     SwingUtilities.getWindowAncestor(button).setVisible(false);
                 });
                 break;
