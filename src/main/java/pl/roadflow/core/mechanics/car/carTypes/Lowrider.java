@@ -6,7 +6,7 @@ import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import javax.swing.*;
 
 public class Lowrider extends Car {
-    private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car3_armygreen.png");
+    private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car16_armygreen.png");
     private static CarParameters getDefaultSportCarParams() {
         return new CarParameters(
                 0.7f,

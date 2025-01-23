@@ -244,12 +244,12 @@ public class CarSelectScreen extends JFrame {
             case 2 -> new RaceCar();
             case 3 -> new Hatchback();
             case 4 -> new FamilySedan();
-            case 5 -> new Taxi();
-            case 6 -> new CompactCar();
-            case 7 -> new PoliceCar();
-            case 8 -> new Suv();
+            case 5 -> new Sedan();
+            case 6 -> new PoliceCar();
+            case 7 -> new CompactCar();
+            case 8 -> new Taxi();
             case 9 -> new Tank();
-            case 10 -> new Sedan();
+            case 10 -> new Suv();
             case 11 -> new Pickup();
             case 12 -> new SportCar();
             case 13 -> new Truck();
