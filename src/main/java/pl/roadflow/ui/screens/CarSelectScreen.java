@@ -22,6 +22,7 @@ public class CarSelectScreen extends JFrame {
 
     private JLabel carPreviewLabel;
     private JPanel statsPanel;
+    private JLabel titleLabel;
 
     private Car selectedCar = new SportCar();
 
@@ -55,11 +56,12 @@ public class CarSelectScreen extends JFrame {
         // Title
         JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         titlePanel.setBackground(BACKGROUND_COLOR);
-        JLabel titleLabel = new JLabel("SELECT YOUR CAR");
+        titleLabel = new JLabel("Select your car");
         titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 36));
         titleLabel.setForeground(TEXT_COLOR);
         titleLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
         titlePanel.add(titleLabel);
+
 
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -78,10 +80,10 @@ public class CarSelectScreen extends JFrame {
 
         mainPanel.add(leftContainer);
 
-        // New right panel with GridBagLayout for better centering
         JPanel rightPanel = new JPanel(new GridBagLayout());
         rightPanel.setBackground(BACKGROUND_COLOR);
         rightPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
 
         JPanel contentPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 0));
         contentPanel.setBackground(BACKGROUND_COLOR);
@@ -112,6 +114,16 @@ public class CarSelectScreen extends JFrame {
         createStatBar("ACCELERATION", selectedCar.getCarAcceleration());
         createStatBar("TOP SPEED", selectedCar.getCarMaxSpeed());
         createStatBar("HANDLING", selectedCar.getCarGrip());
+    }
+
+    private void updateTitle() {
+        titleLabel.setText(getSelectedCarName());
+    }
+
+
+    private String getSelectedCarName() {
+        String name = selectedCar.getClass().getSimpleName();
+        return name.replaceAll("(?<!^)(?=[A-Z])", " ");
     }
 
     private void updateStatBars(){
@@ -197,6 +209,7 @@ public class CarSelectScreen extends JFrame {
                         carContainer.setBackground(HOVER_COLOR);
                         selectedCar = createCarBasedOnId(carId);
                         updateStatBars();
+                        updateTitle();
                         carPreviewLabel.setIcon(new ImageIcon(carImage.getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
                     }
 
