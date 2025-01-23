@@ -5,23 +5,23 @@ import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 
 import javax.swing.*;
 
-public class SportCar extends Car {
-    private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car12_armygreen.png");
+public class RaceCar extends Car {
+    private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car2_armygreen.png");
     private static CarParameters getDefaultSportCarParams() {
         return new CarParameters(
-                0.7f,
-                0.5f,
-                0.96f,
-                3f,
-                0.96f
+                0.6f,
+                0.3f,
+                0.90f,
+                10f,
+                0.93f
         );
     }
 
-    public SportCar() {
+    public RaceCar() {
         super(getDefaultSportCarParams(),carModel);
     }
 
-    public SportCar(CarParameters carParameters) {
+    public RaceCar(CarParameters carParameters) {
         super(carParameters,carModel);
     }
 }

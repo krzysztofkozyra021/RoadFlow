@@ -1,5 +1,8 @@
 package src.main.java.pl.roadflow.ui.screens;
 
+import src.main.java.pl.roadflow.core.mechanics.car.Car;
+import src.main.java.pl.roadflow.core.mechanics.car.carTypes.*;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -19,6 +22,8 @@ public class CarSelectScreen extends JFrame {
 
     private JLabel carPreviewLabel;
     private JPanel statsPanel;
+
+    private Car selectedCar = new SportCar();
 
     public CarSelectScreen() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -104,12 +109,19 @@ public class CarSelectScreen extends JFrame {
     }
 
     private void createStatBars() {
-        createStatBar("ACCELERATION", 7);
-        createStatBar("TOP SPEED", 8);
-        createStatBar("HANDLING", 6);
+        createStatBar("ACCELERATION", selectedCar.getCarAcceleration());
+        createStatBar("TOP SPEED", selectedCar.getCarMaxSpeed());
+        createStatBar("HANDLING", selectedCar.getCarGrip());
     }
 
-    private void createStatBar(String statName, int value) {
+    private void updateStatBars(){
+        statsPanel.removeAll();
+        createStatBars();
+        statsPanel.revalidate();
+        statsPanel.repaint();
+    }
+
+    private void createStatBar(String statName, float value) {
         JPanel statPanel = new JPanel();
         statPanel.setLayout(new BoxLayout(statPanel, BoxLayout.Y_AXIS));
         statPanel.setBackground(BACKGROUND_COLOR);
@@ -134,9 +146,9 @@ public class CarSelectScreen extends JFrame {
                 g2d.setColor(STAT_BAR_EMPTY);
                 g2d.fill(new RoundRectangle2D.Double(0, 0, width, height, height, height));
 
-                // Draw filled segments
+                // Draw filled segments - assuming max value is 10.0f
                 g2d.setColor(STAT_BAR_FILLED);
-                int filledWidth = (int) ((value / 10.0) * width);
+                int filledWidth = (int) ((value / 10.0f) * width);
                 g2d.fill(new RoundRectangle2D.Double(0, 0, filledWidth, height, height, height));
             }
         };
@@ -162,6 +174,7 @@ public class CarSelectScreen extends JFrame {
 
         for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 4; col++) {
+                int carId = (row * 4 + col) + 1;
                 JPanel carContainer = new JPanel(new GridBagLayout());
                 carContainer.setBackground(SECONDARY_COLOR);
                 carContainer.setBorder(defaultBorder);
@@ -182,6 +195,8 @@ public class CarSelectScreen extends JFrame {
                     public void mouseEntered(MouseEvent e) {
                         carContainer.setBorder(selectedBorder);
                         carContainer.setBackground(HOVER_COLOR);
+                        selectedCar = createCarBasedOnId(carId);
+                        updateStatBars();
                         carPreviewLabel.setIcon(new ImageIcon(carImage.getScaledInstance(300, 300, Image.SCALE_SMOOTH)));
                     }
 
@@ -201,11 +216,42 @@ public class CarSelectScreen extends JFrame {
                         }
                         carContainer.setBackground(ACCENT_COLOR);
                         carContainer.setBorder(selectedBorder);
+                        startGame();
                     }
                 });
 
                 panel.add(carContainer);
             }
+        }
+    }
+
+    public Car createCarBasedOnId(int id){
+        return switch (id) {
+            case 1 -> new MiniVan();
+            case 2 -> new RaceCar();
+            case 3 -> new Hatchback();
+            case 4 -> new FamilySedan();
+            case 5 -> new Taxi();
+            case 6 -> new CompactCar();
+            case 7 -> new PoliceCar();
+            case 8 -> new Suv();
+            case 9 -> new Tank();
+            case 10 -> new Sedan();
+            case 11 -> new Pickup();
+            case 12 -> new SportCar();
+            case 13 -> new Truck();
+            case 14 -> new Mustang();
+            case 15 -> new Cabrio();
+            case 16 -> new Lowrider();
+            default -> null;
+        };
+    }
+
+    public void startGame(){
+        if(selectedCar != null){
+            GameScreen gameScreen = new GameScreen();
+            gameScreen.setCar(selectedCar);
+            dispose();
         }
     }
 }

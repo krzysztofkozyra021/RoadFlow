@@ -23,7 +23,7 @@ public class GameScreen extends JFrame {
     private static Rectangle frameBounds;
     public ArrayList<Integer> mapData;
     public static ArrayList<Rectangle> mapObstacles;
-    private final Car car;
+    private Car car;
     Point2D startTilePosition = new Point();
     public final String TITLE = "Road Flow";
 
@@ -39,9 +39,6 @@ public class GameScreen extends JFrame {
 
         loadMapData();
         getStartTilePosition();
-
-        // Spawn Car at the S (Start) tile
-        car = new SportCar((int) startTilePosition.getX(), (int) startTilePosition.getY());
 
 
         addKeyListener(new KeyAdapter() {
@@ -174,6 +171,9 @@ public class GameScreen extends JFrame {
         return 6;
     }
 
+    public void setCar(Car choosenCar) {
+        this.car = choosenCar;
+    }
 
     public static ArrayList<Rectangle> getMapObstacles() {
         return mapObstacles;

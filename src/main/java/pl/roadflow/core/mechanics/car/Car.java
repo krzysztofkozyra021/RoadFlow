@@ -12,25 +12,26 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 
 public class Car {
-    private CarInputHandler carInputHandler;
-    private CollisionHandler collisionHandler;
+    private final CarInputHandler carInputHandler;
+    private final CollisionHandler collisionHandler;
     private float x, y;
     private static final float VELOCITY_SCALE = 1.0f;
-    private ImageIcon carModel = new ImageIcon(GameConsts.CAR_FILE_PATH);
+    private final ImageIcon carModelIcon;
     private int currentPositionTile;
-    private Rectangle hitbox;
+    private final Rectangle hitbox;
+    private final CarParameters carParameters;
 
-    public Car(int startX, int startY, CarParameters carParameters) {
+    public Car(CarParameters carParameters, ImageIcon carModelIcon) {
+        this.carParameters = carParameters;
+        this.carModelIcon = carModelIcon;
         this.collisionHandler = new CollisionHandler(this);
-        this.x = startX - carModel.getIconWidth() / 2;
-        this.y = startY - carModel.getIconHeight() / 2;
         this.carInputHandler = new CarInputHandler(carParameters);
-        this.hitbox = new Rectangle((int) x, (int) y, carModel.getIconWidth(), carModel.getIconHeight());
+        this.hitbox = new Rectangle((int) x, (int) y, carModelIcon.getIconWidth(), carModelIcon.getIconHeight());
     }
 
 
-    public ImageIcon getCarModel() {
-        return carModel;
+    public ImageIcon getCarModelIcon() {
+        return carModelIcon;
     }
 
     public void update() {
@@ -52,7 +53,7 @@ public class Car {
             y += stepY;
 
             // Update hitbox
-            hitbox.setBounds((int) x, (int) y, carModel.getIconWidth(), carModel.getIconHeight());
+            hitbox.setBounds((int) x, (int) y, carModelIcon.getIconWidth(), carModelIcon.getIconHeight());
 
             // Handle collision
             Vector2 collision = collisionHandler.handleCollisions(
@@ -69,16 +70,16 @@ public class Car {
         AffineTransform old = g2d.getTransform();
 
         // Draw car
-        g2d.translate(x + carModel.getIconWidth() / 2, y + carModel.getIconHeight() / 2);
+        g2d.translate(x + (double) carModelIcon.getIconWidth() / 2, y + (double) carModelIcon.getIconHeight() / 2);
         g2d.rotate(Math.toRadians(90 + carInputHandler.topDownCarController.rotationAngle));
-        carModel.paintIcon(null, g2d, -carModel.getIconWidth() / 2, -carModel.getIconHeight() / 2);
+        carModelIcon.paintIcon(null, g2d, -carModelIcon.getIconWidth() / 2, -carModelIcon.getIconHeight() / 2);
 
         // Draw debug visuals
         if (GameConsts.DEBUG_MODE == 1) {
             g2d.setColor(Color.RED);
             g2d.setStroke(new BasicStroke(2));
-            g2d.draw(new Rectangle(-carModel.getIconWidth() / 2, -carModel.getIconHeight() / 2,
-                    carModel.getIconWidth(), carModel.getIconHeight()));
+            g2d.draw(new Rectangle(-carModelIcon.getIconWidth() / 2, -carModelIcon.getIconHeight() / 2,
+                    carModelIcon.getIconWidth(), carModelIcon.getIconHeight()));
         }
 
         g2d.setTransform(old);
@@ -96,8 +97,8 @@ public class Car {
     public float getX() { return x; }
     public float getY() { return y; }
 
-    public int setCurrentPositionTile(int tile) {
-        return currentPositionTile = tile;
+    public void setCurrentPositionTile(int tile) {
+        currentPositionTile = tile;
     }
 
     public boolean isOnRoadOrGroundTile(char tile) {
@@ -105,4 +106,18 @@ public class Car {
                 tile == '1' || tile == '2' || tile == '3' || tile == '4' ||
                 tile == 'R';
     }
+    
+    public float getCarMaxSpeed(){
+        return carParameters.getMaxSpeed();
+    }
+
+    public float getCarGrip(){
+        return carParameters.getDrag();
+    }
+
+    public float getCarAcceleration(){
+        return carParameters.getAccelerationFactor();
+    }
+    
+    
 }
