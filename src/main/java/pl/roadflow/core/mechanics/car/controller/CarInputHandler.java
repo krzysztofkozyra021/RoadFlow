@@ -27,21 +27,29 @@ public class CarInputHandler {
     }
 
     public void update() {
-        // We reset input vector
-        inputVector = new Vector2(0, 0);
+        float steeringInput = 0;
+        float accelerationInput = 0;
 
-        // We add vector from active keys
         for (Map.Entry<Integer, Boolean> entry : keyStates.entrySet()) {
-            if (entry.getValue()) { // If key is pressed
+            if (entry.getValue()) {
                 VehicleKeysControl control = VehicleKeysControl.getByKeyCode(entry.getKey());
                 if (control != null) {
-                    inputVector = inputVector.add(control.getInputVector());
+                    Vector2 input = control.getInputVector();
+                    if (input.x != 0) {
+                        steeringInput += input.x;
+                    }
+                    if (input.y != 0) {
+                        accelerationInput += input.y;
+                    }
                 }
             }
         }
 
-        // Pass active vector to controller
-        topDownCarController.setInputVector(inputVector);
+        steeringInput = Math.max(-1, Math.min(1, steeringInput));
+        accelerationInput = Math.max(-1, Math.min(1, accelerationInput));
+
+        Vector2 finalInput = new Vector2(steeringInput, accelerationInput);
+        topDownCarController.setInputVector(finalInput);
     }
 
     public void handleKeyPressed(int keyCode) {
