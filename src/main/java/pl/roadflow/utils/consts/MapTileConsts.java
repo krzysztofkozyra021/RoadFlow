@@ -39,7 +39,12 @@ public class MapTileConsts {
                     !tile.equals(6) &&    // G - ground
                     !tile.equals(7) &&    // P - road vertical
                     !tile.equals(8) &&     // S - start line
-                    !tile.equals(15))
+                    !tile.equals(9) &&     // S - start line
+                    !tile.equals(19) &&     // S - start line
+                    !tile.equals(20) &&     // S - start line
+                    !tile.equals(21) &&     // S - start line
+                    !tile.equals(22) &&     // S - start line
+                    !tile.equals(18))
             {
                 obstacleTiles.add(tile);
             }
@@ -50,37 +55,37 @@ public class MapTileConsts {
         try {
             // TILES ICONS
             mapTileIcons.put(1, new ImageIcon(ASSET_TILES_FOLDER_PATH + "grass.png"));
-            mapTileIcons.put(2, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_dirt_01.png"));
-            mapTileIcons.put(3, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_dirt_02.png"));
-            mapTileIcons.put(4, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_dirt_03.png"));
-            mapTileIcons.put(5, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_dirt_04.png"));
-            mapTileIcons.put(6, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_jump_01.png"));
-            mapTileIcons.put(7, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_jump_02.png"));
-            mapTileIcons.put(8, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_11.png"));
-            mapTileIcons.put(9, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve1_00.png"));
+            mapTileIcons.put(2, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve3_00_1.png"));
+            mapTileIcons.put(3, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve3_00_2.png"));
+            mapTileIcons.put(4, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve3_00_3.png"));
+            mapTileIcons.put(5, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve3_00_4.png"));
+            mapTileIcons.put(6, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve3_00_5.png"));
+            mapTileIcons.put(7, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve3_00_6.png"));
+            mapTileIcons.put(8, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve3_00_7.png"));
+            mapTileIcons.put(9, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve3_00_8.png"));
             mapTileIcons.put(10, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve1_01.png"));
             mapTileIcons.put(11, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve1_02.png"));
             mapTileIcons.put(12, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve1_03.png"));
             mapTileIcons.put(13, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve2_00.png"));
             mapTileIcons.put(14, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve2_01.png"));
-            mapTileIcons.put(15, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve3_00.png"));
+            mapTileIcons.put(15, new ImageIcon(ASSET_TILES_FOLDER_PATH + "A.png"));
             mapTileIcons.put(16, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve3_01.png"));
             mapTileIcons.put(17, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve4.png"));
             mapTileIcons.put(18, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_fill.png"));
-            mapTileIcons.put(19, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_side.png"));
+            mapTileIcons.put(19, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_side_left.png"));
             mapTileIcons.put(20, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_side_right.png"));
-            mapTileIcons.put(21, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_03.png"));
-            mapTileIcons.put(22, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_04.png"));
-            mapTileIcons.put(23, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_05.png"));
-            mapTileIcons.put(24, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_06.png"));
-            mapTileIcons.put(25, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_07.png"));
-            mapTileIcons.put(26, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_08.png"));
-            mapTileIcons.put(27, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_curve1_00.png"));
-            mapTileIcons.put(28, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_curve1_01.png"));
-            mapTileIcons.put(29, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_curve2.png"));
+            mapTileIcons.put(21, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_top.png"));
+            mapTileIcons.put(22, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_down.png"));
+            mapTileIcons.put(23, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve3_01_1.png"));
+            mapTileIcons.put(24, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve3_01_2.png"));
+            mapTileIcons.put(25, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve3_01_3.png"));
+            mapTileIcons.put(26, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve3_01_4.png"));
+            mapTileIcons.put(27, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_11_1.png"));
+            mapTileIcons.put(28, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_11_2.png"));
+            mapTileIcons.put(29, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_11_3.png"));
+            mapTileIcons.put(30, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_11_4.png"));
 
             // OBJECTS AND DECORATIONS ICONS
-            mapTileIcons.put(30, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "barrel_fallen.png"));
             mapTileIcons.put(31, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "barrel_standup.png"));
             mapTileIcons.put(32, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "block.png"));
             mapTileIcons.put(33, new ImageIcon(ASSET_OBJECTS_AND_DECORATIONS_FOLDER_PATH + "cone.png"));
