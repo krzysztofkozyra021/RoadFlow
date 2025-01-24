@@ -28,6 +28,11 @@ public class DriftPhysics {
         float lateralSpeed = Vector2.dot(velocity, right);
 
         float grip = GRIP_STRENGTH + (1.0f - topDownCarController.getCarParameters().getDriftFactor());
+
+        if (!topDownCarController.isOnRoad()) {
+            grip *= 2.0f;
+        }
+
         float deltaTime = 1.0f/60.0f;
 
         float reductionRate = Math.abs(lateralSpeed) * grip * deltaTime;

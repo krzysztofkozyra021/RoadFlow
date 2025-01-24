@@ -39,7 +39,7 @@ public class MapTileConsts {
                     !tile.equals(6) &&    // G - ground
                     !tile.equals(7) &&    // P - road vertical
                     !tile.equals(8) &&     // S - start line
-                    !tile.equals(15))
+                    !tile.equals(18))
             {
                 obstacleTiles.add(tile);
             }

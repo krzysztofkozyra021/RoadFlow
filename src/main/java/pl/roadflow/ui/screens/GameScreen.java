@@ -159,7 +159,7 @@ public class GameScreen extends JFrame {
         }
     }
 
-    public Integer getTileAtPosition(int x, int y) {
+    public int getTileAtPosition(int x, int y) {
         int tileX = x / TILE_SIZE;
         int tileY = y / TILE_SIZE;
         int index = tileY * WIDTH + tileX;

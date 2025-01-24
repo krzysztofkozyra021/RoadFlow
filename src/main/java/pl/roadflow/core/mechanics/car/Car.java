@@ -40,6 +40,7 @@ public class Car {
 
         carInputHandler.update();
         TopDownCarController controller = carInputHandler.getTopDownCarController();
+        controller.setIsOnRoad(isOnRoad());
         controller.applySteering();
         controller.applyEngineForce();
 
@@ -64,6 +65,11 @@ public class Car {
             y = collision.y;
 
         }
+
+    }
+
+    public boolean isOnRoad() {
+        return currentPositionTile >= 6 && currentPositionTile <= 20;
     }
 
     public void draw(Graphics2D g2d) {
@@ -101,11 +107,6 @@ public class Car {
         currentPositionTile = tile;
     }
 
-    public boolean isOnRoadOrGroundTile(char tile) {
-        return tile == 'D' || tile == 'P' || tile == 'S' || tile == 'G' ||
-                tile == '1' || tile == '2' || tile == '3' || tile == '4' ||
-                tile == 'R';
-    }
     
     public float getCarMaxSpeed(){
         return carParameters.getMaxSpeed();

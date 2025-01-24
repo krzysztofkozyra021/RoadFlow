@@ -12,11 +12,9 @@ public class CarInputHandler {
 
     private final Map<Integer, Boolean> keyStates = new HashMap<>();
     public TopDownCarController topDownCarController;
-    private Vector2 inputVector;
 
     public CarInputHandler(CarParameters carParameters) {
         topDownCarController = new TopDownCarController(carParameters);
-        inputVector = new Vector2();
         for (VehicleKeysControl control : VehicleKeysControl.values()) {
             keyStates.put(control.getKeyCode(), false);
         }
