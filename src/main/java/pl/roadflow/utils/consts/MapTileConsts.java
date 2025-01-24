@@ -43,7 +43,15 @@ public class MapTileConsts {
                     !tile.equals(19) &&     // S - start line
                     !tile.equals(20) &&     // S - start line
                     !tile.equals(21) &&     // S - start line
-                    !tile.equals(22) &&     // S - start line
+                    !tile.equals(22) &&
+                    !tile.equals(23) &&
+                    !tile.equals(24) &&
+                    !tile.equals(25) &&
+                    !tile.equals(26) &&
+                    !tile.equals(27) &&
+                    !tile.equals(28) &&
+                    !tile.equals(29) &&
+                    !tile.equals(30) &&
                     !tile.equals(18))
             {
                 obstacleTiles.add(tile);
