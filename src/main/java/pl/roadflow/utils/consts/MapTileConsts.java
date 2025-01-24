@@ -82,6 +82,7 @@ public class MapTileConsts {
                     !tile.equals(102) &&
                     !tile.equals(103) &&
                     !tile.equals(104) &&
+                    !tile.equals(107) &&
                     !tile.equals(108) &&
                     !tile.equals(109) &&
                     !tile.equals(110) &&
