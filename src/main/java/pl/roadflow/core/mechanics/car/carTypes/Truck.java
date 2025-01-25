@@ -1,7 +1,7 @@
-package src.main.java.pl.roadflow.core.mechanics.car.carTypes;
+package pl.roadflow.core.mechanics.car.carTypes;
 
-import src.main.java.pl.roadflow.core.mechanics.car.Car;
-import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
+import pl.roadflow.core.mechanics.car.Car;
+import pl.roadflow.core.mechanics.stats.CarParameters;
 
 import javax.swing.*;
 
@@ -19,6 +19,6 @@ public class Truck extends Car {
 
     public Truck(String color) {
         super(getTruckParams(),
-                new ImageIcon("src/main/java/pl/roadflow/assets/cars/car13_" + color + ".png"));
+                new ImageIcon("src/main/resources/assets/cars/car13_" + color + ".png"));
     }
 }

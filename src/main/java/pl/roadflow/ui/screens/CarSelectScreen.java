@@ -1,7 +1,7 @@
-package src.main.java.pl.roadflow.ui.screens;
+package pl.roadflow.ui.screens;
 
-import src.main.java.pl.roadflow.core.mechanics.car.Car;
-import src.main.java.pl.roadflow.core.mechanics.car.carTypes.*;
+import pl.roadflow.core.mechanics.car.Car;
+import pl.roadflow.core.mechanics.car.carTypes.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -264,7 +264,7 @@ public class CarSelectScreen extends JFrame {
 
 
     private void addCarsFromImage(JPanel panel) {
-        ImageIcon carsIcon = new ImageIcon("src/main/java/pl/roadflow/assets/menu/Cars.png");
+        ImageIcon carsIcon = new ImageIcon("src/main/resources/assets/menu/Cars.png");
         Image carsImage = carsIcon.getImage();
 
         int carWidth = carsImage.getWidth(null) / 4;

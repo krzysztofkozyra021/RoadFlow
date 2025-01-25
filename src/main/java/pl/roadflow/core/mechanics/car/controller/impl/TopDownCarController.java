@@ -1,10 +1,10 @@
-package src.main.java.pl.roadflow.core.mechanics.car.controller.impl;
+package pl.roadflow.core.mechanics.car.controller.impl;
 
-import src.main.java.pl.roadflow.core.mechanics.car.controller.IVehicleInput;
-import src.main.java.pl.roadflow.core.mechanics.car.controller.IVehiclePhysics;
-import src.main.java.pl.roadflow.core.mechanics.car.physics.DriftPhysics;
-import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
-import src.main.java.pl.roadflow.utils.Vector2;
+import pl.roadflow.core.mechanics.car.controller.IVehicleInput;
+import pl.roadflow.core.mechanics.car.controller.IVehiclePhysics;
+import pl.roadflow.core.mechanics.car.physics.DriftPhysics;
+import pl.roadflow.core.mechanics.stats.CarParameters;
+import pl.roadflow.utils.Vector2;
 
 public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
 

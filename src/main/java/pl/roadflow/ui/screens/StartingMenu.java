@@ -1,4 +1,4 @@
-package src.main.java.pl.roadflow.ui.screens;
+package pl.roadflow.ui.screens;
 
 import javax.swing.*;
 import java.awt.*;

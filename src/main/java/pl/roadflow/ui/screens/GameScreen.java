@@ -1,9 +1,9 @@
-package src.main.java.pl.roadflow.ui.screens;
+package pl.roadflow.ui.screens;
 
-import src.main.java.pl.roadflow.core.mechanics.car.Car;
-import src.main.java.pl.roadflow.core.mechanics.car.carTypes.SportCar;
-import src.main.java.pl.roadflow.utils.consts.GameConsts;
-import src.main.java.pl.roadflow.utils.consts.MapTileConsts;
+import pl.roadflow.core.mechanics.car.Car;
+import pl.roadflow.core.mechanics.car.carTypes.SportCar;
+import pl.roadflow.utils.consts.GameConsts;
+import pl.roadflow.utils.consts.MapTileConsts;
 
 import javax.swing.*;
 import java.awt.*;
