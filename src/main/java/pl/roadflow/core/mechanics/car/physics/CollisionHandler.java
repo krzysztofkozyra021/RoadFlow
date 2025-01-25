@@ -103,8 +103,8 @@ public class CollisionHandler {
         Rectangle frameBounds = GameScreen.getFrameBounds();
 
         // New position, make sure that car stays in frame
-        float newX = Math.max(0, Math.min(x, frameBounds.width - car.getCarModelIcon().getIconWidth()));
-        float newY = Math.max(0, Math.min(y, frameBounds.height - car.getCarModelIcon().getIconHeight()));
+        float newX = Math.max(0, Math.min(x, frameBounds.width ));
+        float newY = Math.max(0, Math.min(y, frameBounds.height));
 
         // If position changed, there's collision
         if (newX != x || newY != y) {

@@ -112,7 +112,7 @@ public class Car {
     }
 
     public float getCarGrip(){
-        return carParameters.getDrag();
+        return carParameters.getGrip();
     }
 
     public float getCarAcceleration(){

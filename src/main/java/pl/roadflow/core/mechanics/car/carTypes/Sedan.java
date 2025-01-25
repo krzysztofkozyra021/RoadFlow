@@ -7,18 +7,19 @@ import javax.swing.*;
 
 public class Sedan extends Car {
     private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car5_armygreen.png");
-    private static CarParameters getDefaultSportCarParams() {
+    private static CarParameters getSedanParams() {
         return new CarParameters(
-                0.7f,
-                0.5f,
-                0.96f,
-                3f,
-                0.96f
+                0.75f,    // accelerationFactor (0.1 - 1.0) - refined, smooth power delivery
+                1.3f,     // minSpeedToTurn (0 - 2) - balanced luxury handling
+                0.6f,     // driftFactor (0.5f-0.9f) - controlled cornering behavior
+                70f,      // maxSpeed (1 - 100) - executive class speed
+                0.07f,    // grip/friction (0.01 - 0.1) - premium tire grip
+                9f        // turnFactor (1 - 15) - comfortable yet precise steering
         );
     }
 
     public Sedan() {
-        super(getDefaultSportCarParams(),carModel);
+        super(getSedanParams(),carModel);
     }
 
     public Sedan(CarParameters carParameters) {

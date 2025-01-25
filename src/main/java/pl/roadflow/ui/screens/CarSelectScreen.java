@@ -112,8 +112,8 @@ public class CarSelectScreen extends JFrame {
 
     private void createStatBars() {
         createStatBar("ACCELERATION", selectedCar.getCarAcceleration());
-        createStatBar("TOP SPEED", selectedCar.getCarMaxSpeed());
-        createStatBar("HANDLING", selectedCar.getCarGrip());
+        createStatBar("TOP SPEED", selectedCar.getCarMaxSpeed() / 100);
+        createStatBar("HANDLING", selectedCar.getCarGrip() * 10);
     }
 
     private void updateTitle() {
@@ -160,7 +160,7 @@ public class CarSelectScreen extends JFrame {
 
                 // Draw filled segments - assuming max value is 10.0f
                 g2d.setColor(STAT_BAR_FILLED);
-                int filledWidth = (int) ((value / 10.0f) * width);
+                int filledWidth = (int) ((value) * width);
                 g2d.fill(new RoundRectangle2D.Double(0, 0, filledWidth, height, height, height));
             }
         };
@@ -253,7 +253,7 @@ public class CarSelectScreen extends JFrame {
             case 11 -> new Pickup();
             case 12 -> new SportCar();
             case 13 -> new Truck();
-            case 14 -> new Mustang();
+            case 14 -> new MuscleCar();
             case 15 -> new Cabrio();
             case 16 -> new Lowrider();
             default -> null;

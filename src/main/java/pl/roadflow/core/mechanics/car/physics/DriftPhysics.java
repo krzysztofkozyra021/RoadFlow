@@ -5,9 +5,8 @@ import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import src.main.java.pl.roadflow.utils.Vector2;
 
 public class DriftPhysics {
-
     private final TopDownCarController topDownCarController;
-
+    private static final float GRIP_STRENGTH = 0.5f; // Controls how fast orthagonal speed is killed
     public DriftPhysics(TopDownCarController topDownCarController) {
         this.topDownCarController = topDownCarController;
     }
@@ -19,21 +18,30 @@ public class DriftPhysics {
                 (float) Math.sin(angleInRadians)
         );
 
-        // Vector right is perpendicular to forward (rotated 90 degrees clockwise)
         Vector2 right = new Vector2(
                 -(float) Math.sin(angleInRadians),
                 (float) Math.cos(angleInRadians)
         );
 
-        float forwardSpeed = Vector2.dot(topDownCarController.getVelocity(), forward);
-        float lateralSpeed = Vector2.dot(topDownCarController.getVelocity(), right);
+        Vector2 velocity = topDownCarController.getVelocity();
+        float forwardSpeed = Vector2.dot(velocity, forward);
+        float lateralSpeed = Vector2.dot(velocity, right);
 
-        float driftedLateralSpeed = lateralSpeed * topDownCarController.getCarParameters().getDriftFactor();
+        float grip = GRIP_STRENGTH + (1.0f - topDownCarController.getCarParameters().getDriftFactor());
+        float deltaTime = 1.0f/60.0f;
 
-        if (Math.abs(topDownCarController.getAccelerationInput()) < 0.1f && Math.abs(forwardSpeed) > 0.5f) {
-            driftedLateralSpeed *= topDownCarController.getLateralDrag();
+        float reductionRate = Math.abs(lateralSpeed) * grip * deltaTime;
+        float newLateralSpeed = lateralSpeed;
+
+        if (Math.abs(lateralSpeed) > 0.1f) {
+            if (lateralSpeed > 0) {
+                newLateralSpeed = Math.max(0, lateralSpeed - reductionRate);
+            } else {
+                newLateralSpeed = Math.min(0, lateralSpeed + reductionRate);
+            }
         }
 
-        topDownCarController.setVelocity(forward.multiply(forwardSpeed).add(right.multiply(driftedLateralSpeed)));
+        Vector2 newVelocity = forward.multiply(forwardSpeed).add(right.multiply(newLateralSpeed));
+        topDownCarController.setVelocity(newVelocity);
     }
 }
