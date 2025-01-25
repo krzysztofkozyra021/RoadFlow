@@ -35,14 +35,14 @@ public class MapTileConsts {
                     !tile.equals(2) &&
                     !tile.equals(3) &&
                     !tile.equals(4) &&
-                    !tile.equals(5) &&    // D - road horizontal
-                    !tile.equals(6) &&    // G - ground
-                    !tile.equals(7) &&    // P - road vertical
-                    !tile.equals(8) &&     // S - start line
-                    !tile.equals(9) &&     // S - start line
-                    !tile.equals(19) &&     // S - start line
-                    !tile.equals(20) &&     // S - start line
-                    !tile.equals(21) &&     // S - start line
+                    !tile.equals(5) &&
+                    !tile.equals(6) &&
+                    !tile.equals(7) &&
+                    !tile.equals(8) &&
+                    !tile.equals(9) &&
+                    !tile.equals(19) &&
+                    !tile.equals(20) &&
+                    !tile.equals(21) &&
                     !tile.equals(22) &&
                     !tile.equals(23) &&
                     !tile.equals(24) &&
@@ -99,8 +99,8 @@ public class MapTileConsts {
 
     private void setMapTileIcons() {
         try {
-            // TILES ICONS
             mapTileIcons.put(1, new ImageIcon(ASSET_TILES_FOLDER_PATH + "grass.png"));
+            //Road tiles
             mapTileIcons.put(2, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve3_00_1.png"));
             mapTileIcons.put(3, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve3_00_2.png"));
             mapTileIcons.put(4, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_curve3_00_3.png"));
@@ -131,7 +131,6 @@ public class MapTileConsts {
             mapTileIcons.put(29, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_11_3.png"));
             mapTileIcons.put(30, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_road_11_4.png"));
 
-            // OBJECTS AND DECORATIONS ICONS
             mapTileIcons.put(31, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_04.png"));
             mapTileIcons.put(32, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_06.png"));
             mapTileIcons.put(33, new ImageIcon(ASSET_TILES_FOLDER_PATH + "track_water_05.png"));

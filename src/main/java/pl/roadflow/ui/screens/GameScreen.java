@@ -24,7 +24,7 @@ public class GameScreen extends JFrame {
     public ArrayList<Integer> mapData;
     public static ArrayList<Rectangle> mapObstacles;
     private Car car;
-    Point2D startTilePosition = new Point();
+    public static Point2D startTilePosition = new Point();
     public final String TITLE = "Road Flow";
 
     public GameScreen() {
@@ -38,8 +38,6 @@ public class GameScreen extends JFrame {
         mapObstacles = new ArrayList<>();
 
         loadMapData();
-        getStartTilePosition();
-
 
         addKeyListener(new KeyAdapter() {
             @Override
@@ -65,29 +63,20 @@ public class GameScreen extends JFrame {
             device.setFullScreenWindow(this);
         }
 
+
         setVisible(true);
         setFocusable(true);
         requestFocusInWindow();
+
     }
 
-    private void getStartTilePosition() {
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
-                int index = y * WIDTH + x;
-                if (index < mapData.size() && mapData.get(index) == 8) {
-                    startTilePosition.setLocation(x * TILE_SIZE, y * TILE_SIZE);
-                    return;
-                }
-            }
-        }
-    }
 
     @Override
     public void paint(Graphics g) {
         Image offscreen = createImage(getWidth(), getHeight());
         Graphics2D offgc = (Graphics2D) offscreen.getGraphics();
 
-        offgc.setColor(new Color(46, 72, 24)); // Ciemna zieleń z obrazka
+        offgc.setColor(new Color(46, 72, 24)); // Dark green
         offgc.fillRect(0, 0, getWidth(), getHeight());
 
         offgc.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -129,14 +118,26 @@ public class GameScreen extends JFrame {
     public void loadMapData() {
         try (BufferedReader reader = new BufferedReader(new FileReader(GameConsts.MAP_FILE_PATH))) {
             String line;
+            int yCoord = 0;
             while ((line = reader.readLine()) != null) {
                 String[] tiles = line.split(",");
+                int xCoord = 0;
                 for (String tile : tiles) {
                     tile = tile.trim();
                     if (!tile.isEmpty()) {
-                        mapData.add(Integer.parseInt(tile));
+                        int tileNumber = Integer.parseInt(tile);
+                        mapData.add(tileNumber);
+
+                        if (tileNumber == 102) {
+                            startTilePosition.setLocation(
+                                    xCoord * TILE_SIZE,
+                                    yCoord * TILE_SIZE
+                            );
+                        }
+                        xCoord++;
                     }
                 }
+                yCoord++;
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -173,6 +174,8 @@ public class GameScreen extends JFrame {
 
     public void setCar(Car choosenCar) {
         this.car = choosenCar;
+        car.setPosition((float) startTilePosition.getX(), (float) startTilePosition.getY());
+
     }
 
     public static ArrayList<Rectangle> getMapObstacles() {

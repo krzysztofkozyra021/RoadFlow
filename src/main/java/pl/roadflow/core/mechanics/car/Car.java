@@ -69,7 +69,7 @@ public class Car {
     }
 
     public boolean isOnRoad() {
-        return currentPositionTile >= 6 && currentPositionTile <= 20;
+        return currentPositionTile >= 2 && currentPositionTile <= 30;
     }
 
     public void draw(Graphics2D g2d) {
@@ -103,6 +103,13 @@ public class Car {
     public float getX() { return x; }
     public float getY() { return y; }
 
+    public void setPosition(float x, float y) {
+        this.x = x;
+        this.y = y;
+        this.hitbox.setLocation((int) x, (int) y);
+    }
+
+
     public void setCurrentPositionTile(int tile) {
         currentPositionTile = tile;
     }
@@ -119,6 +126,5 @@ public class Car {
     public float getCarAcceleration(){
         return carParameters.getAccelerationFactor();
     }
-    
     
 }
