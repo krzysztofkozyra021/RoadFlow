@@ -56,8 +56,8 @@ public class CollisionHandler {
             pushX /= length;
             pushY /= length;
 
-            x += pushX * 2.0f; // Push by const distance
-            y += pushY * 2.0f;
+            x += pushX * 1.1f; // Push by const distance
+            y += pushY * 1.1f;
         } else {
             x = previousX;
             y = previousY;
@@ -101,12 +101,21 @@ public class CollisionHandler {
     private Vector2 handleFrameCollision(float x, float y,
                                          TopDownCarController controller) {
         Rectangle frameBounds = GameScreen.getFrameBounds();
+        ImageIcon carModel = car.getCarModelIcon();
 
-        // New position, make sure that car stays in frame
-        float newX = Math.max(0, Math.min(x, frameBounds.width ));
-        float newY = Math.max(0, Math.min(y, frameBounds.height));
+        // Calculate car dimensions
+        float halfWidth = carModel.getIconWidth() / 2f;
+        float halfHeight = carModel.getIconHeight() / 2f;
 
-        // If position changed, there's collision
+        // Calculate valid boundaries considering car size
+        float maxX = frameBounds.width - halfWidth;
+        float maxY = frameBounds.height - halfHeight;
+
+        // Clamp position to keep car fully visible
+        float newX = Math.max(halfWidth, Math.min(x, maxX));
+        float newY = Math.max(halfHeight, Math.min(y, maxY));
+
+        // Apply collision response if position changed
         if (newX != x || newY != y) {
             controller.setVelocity(controller.getVelocity().multiply(0.5f));
         }

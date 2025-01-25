@@ -1,5 +1,7 @@
 package pl.roadflow.utils;
 
+import java.util.Objects;
+
 public class Vector2 {
     public float x;
     public float y;
@@ -48,4 +50,19 @@ public class Vector2 {
         return new Vector2(this.x - other.x, this.y - other.y);
 
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vector2 vector2 = (Vector2) o;
+        return Float.compare(vector2.x, x) == 0 &&
+                Float.compare(vector2.y, y) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
+    }
+
 }
