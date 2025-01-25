@@ -6,7 +6,6 @@ import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import javax.swing.*;
 
 public class MiniVan extends Car {
-    private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car1_armygreen.png");
     private static CarParameters getMiniVanParams() {
         return new CarParameters(
                 0.4f,     // accelerationFactor (0.1 - 1.0) - practical, unhurried acceleration
@@ -18,11 +17,9 @@ public class MiniVan extends Car {
         );
     }
 
-    public MiniVan() {
-        super(getMiniVanParams(),carModel);
+    public MiniVan(String color) {
+        super(getMiniVanParams(),
+                new ImageIcon("src/main/java/pl/roadflow/assets/cars/car1_" + color + ".png"));
     }
 
-    public MiniVan(CarParameters carParameters) {
-        super(carParameters,carModel);
-    }
 }

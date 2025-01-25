@@ -6,7 +6,6 @@ import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import javax.swing.*;
 
 public class Suv extends Car {
-    private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car10_armygreen.png");
     private static CarParameters getSuvParams() {
         return new CarParameters(
                 0.6f,     // accelerationFactor (0.1 - 1.0) - confident SUV acceleration
@@ -18,11 +17,8 @@ public class Suv extends Car {
         );
     }
 
-    public Suv() {
-        super(getSuvParams(),carModel);
-    }
-
-    public Suv(CarParameters carParameters) {
-        super(carParameters,carModel);
+    public Suv(String color) {
+        super(getSuvParams(),
+                new ImageIcon("src/main/java/pl/roadflow/assets/cars/car10_" + color + ".png"));
     }
 }

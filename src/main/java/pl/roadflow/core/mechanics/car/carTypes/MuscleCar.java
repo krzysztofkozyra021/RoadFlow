@@ -6,7 +6,6 @@ import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import javax.swing.*;
 
 public class MuscleCar extends Car {
-    private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car14_armygreen.png");
     public static CarParameters getMuscleCarParams() {
         return new CarParameters(
                 0.65f, // accelerationFactor - strong but slightly less than race car
@@ -18,11 +17,8 @@ public class MuscleCar extends Car {
         );
     }
 
-    public MuscleCar() {
-        super(getMuscleCarParams(),carModel);
-    }
-
-    public MuscleCar(CarParameters carParameters) {
-        super(carParameters,carModel);
+    public MuscleCar(String color) {
+        super(getMuscleCarParams(),
+                new ImageIcon("src/main/java/pl/roadflow/assets/cars/car14_" + color + ".png"));
     }
 }

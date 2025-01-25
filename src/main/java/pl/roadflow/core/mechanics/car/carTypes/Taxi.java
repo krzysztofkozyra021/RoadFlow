@@ -6,8 +6,7 @@ import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import javax.swing.*;
 
 public class Taxi extends Car {
-    private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car8_armygreen.png");
-    private static CarParameters getTruckParams() {
+    private static CarParameters getTaxiParams() {
         return new CarParameters(
                 0.50f,     // accelerationFactor (0.1 - 1.0) - reliable urban acceleration
                 0.9f,     // minSpeedToTurn (0 - 2) - city-smart turning
@@ -18,11 +17,8 @@ public class Taxi extends Car {
         );
     }
 
-    public Taxi() {
-        super(getTruckParams(),carModel);
-    }
-
-    public Taxi(CarParameters carParameters) {
-        super(carParameters,carModel);
+    public Taxi(String color) {
+        super((getTaxiParams()),
+                new ImageIcon("src/main/java/pl/roadflow/assets/cars/car8_" + color + ".png"));
     }
 }

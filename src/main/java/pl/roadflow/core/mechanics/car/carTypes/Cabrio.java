@@ -6,7 +6,6 @@ import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import javax.swing.*;
 
 public class Cabrio extends Car {
-    private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car15_armygreen.png");
     private static CarParameters getCabrioParams() {
         return new CarParameters(
                 0.8f,     // accelerationFactor (0.1 - 1.0) - sporty acceleration
@@ -18,11 +17,8 @@ public class Cabrio extends Car {
         );
     }
 
-    public Cabrio() {
-        super(getCabrioParams(),carModel);
-    }
-
-    public Cabrio(CarParameters carParameters) {
-        super(carParameters,carModel);
+    public Cabrio(String color) {
+        super(getCabrioParams(),
+                new ImageIcon("src/main/java/pl/roadflow/assets/cars/car15_" + color + ".png"));
     }
 }

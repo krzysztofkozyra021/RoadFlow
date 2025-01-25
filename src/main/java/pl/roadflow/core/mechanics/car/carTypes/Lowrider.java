@@ -6,7 +6,6 @@ import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import javax.swing.*;
 
 public class Lowrider extends Car {
-    private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car16_armygreen.png");
     private static CarParameters getLowriderParams() {
         return new CarParameters(
                 0.6f,     // accelerationFactor (0.1 - 1.0) - laid-back acceleration
@@ -18,11 +17,8 @@ public class Lowrider extends Car {
         );
     }
 
-    public Lowrider() {
-        super(getLowriderParams(),carModel);
-    }
-
-    public Lowrider(CarParameters carParameters) {
-        super(carParameters,carModel);
+    public Lowrider(String color) {
+        super(getLowriderParams(),
+                new ImageIcon("src/main/java/pl/roadflow/assets/cars/car16_" + color + ".png"));
     }
 }
