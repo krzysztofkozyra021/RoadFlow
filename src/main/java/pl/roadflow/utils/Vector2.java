@@ -1,4 +1,4 @@
-package src.main.java.pl.roadflow.utils;
+package pl.roadflow.utils;
 
 public class Vector2 {
     public float x;

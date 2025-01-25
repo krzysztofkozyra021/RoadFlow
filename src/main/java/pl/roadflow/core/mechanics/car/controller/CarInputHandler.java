@@ -1,8 +1,8 @@
-package src.main.java.pl.roadflow.core.mechanics.car.controller;
+package pl.roadflow.core.mechanics.car.controller;
 
-import src.main.java.pl.roadflow.core.mechanics.car.controller.impl.TopDownCarController;
-import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
-import src.main.java.pl.roadflow.utils.Vector2;
+import pl.roadflow.core.mechanics.car.controller.impl.TopDownCarController;
+import pl.roadflow.core.mechanics.stats.CarParameters;
+import pl.roadflow.utils.Vector2;
 
 import java.awt.event.KeyEvent;
 import java.util.HashMap;

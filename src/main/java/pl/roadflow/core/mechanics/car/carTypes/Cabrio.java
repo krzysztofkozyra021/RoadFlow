@@ -1,7 +1,7 @@
-package src.main.java.pl.roadflow.core.mechanics.car.carTypes;
+package pl.roadflow.core.mechanics.car.carTypes;
 
-import src.main.java.pl.roadflow.core.mechanics.car.Car;
-import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
+import pl.roadflow.core.mechanics.car.Car;
+import pl.roadflow.core.mechanics.stats.CarParameters;
 
 import javax.swing.*;
 
@@ -19,6 +19,6 @@ public class Cabrio extends Car {
 
     public Cabrio(String color) {
         super(getCabrioParams(),
-                new ImageIcon("src/main/java/pl/roadflow/assets/cars/car15_" + color + ".png"));
+                new ImageIcon("src/main/resources/assets/cars/car15_" + color + ".png"));
     }
 }

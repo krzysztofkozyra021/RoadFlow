@@ -1,11 +1,11 @@
-package src.main.java.pl.roadflow.core.mechanics.car;
+package pl.roadflow.core.mechanics.car;
 
-import src.main.java.pl.roadflow.core.mechanics.car.controller.CarInputHandler;
-import src.main.java.pl.roadflow.core.mechanics.car.controller.impl.TopDownCarController;
-import src.main.java.pl.roadflow.core.mechanics.car.physics.CollisionHandler;
-import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
-import src.main.java.pl.roadflow.utils.Vector2;
-import src.main.java.pl.roadflow.utils.consts.GameConsts;
+import pl.roadflow.core.mechanics.car.controller.CarInputHandler;
+import pl.roadflow.core.mechanics.car.controller.impl.TopDownCarController;
+import pl.roadflow.core.mechanics.car.physics.CollisionHandler;
+import pl.roadflow.core.mechanics.stats.CarParameters;
+import pl.roadflow.utils.Vector2;
+import pl.roadflow.utils.consts.GameConsts;
 
 import javax.swing.*;
 import java.awt.*;

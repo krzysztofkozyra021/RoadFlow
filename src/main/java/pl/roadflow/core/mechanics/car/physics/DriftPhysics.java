@@ -1,8 +1,7 @@
-package src.main.java.pl.roadflow.core.mechanics.car.physics;
+package pl.roadflow.core.mechanics.car.physics;
 
-import src.main.java.pl.roadflow.core.mechanics.car.controller.impl.TopDownCarController;
-import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
-import src.main.java.pl.roadflow.utils.Vector2;
+import pl.roadflow.core.mechanics.car.controller.impl.TopDownCarController;
+import pl.roadflow.utils.Vector2;
 
 public class DriftPhysics {
     private final TopDownCarController topDownCarController;

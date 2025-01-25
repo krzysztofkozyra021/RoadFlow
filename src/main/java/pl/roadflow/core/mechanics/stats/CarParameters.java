@@ -1,4 +1,4 @@
-package src.main.java.pl.roadflow.core.mechanics.stats;
+package pl.roadflow.core.mechanics.stats;
 
 public class CarParameters {
     private float accelerationFactor;   // accelerationFactor (0.1 - 1.0)
