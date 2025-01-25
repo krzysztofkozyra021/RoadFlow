@@ -1,0 +1,10 @@
+--module-path
+"src/main/java/pl/roadflow/core/openjfx-23.0.2_windows-x64_bin-sdk/javafx-sdk-23.0.2/lib"
+--add-modules
+javafx.controls,javafx.media,javafx.graphics
+--add-modules
+javafx.controls,javafx.media,javafx.graphics
+--add-exports
+javafx.base/com.sun.javafx.logging=ALL-UNNAMED
+--add-modules
+javafx.controls,javafx.swing,javafx.media,javafx.graphics,javafx.base
