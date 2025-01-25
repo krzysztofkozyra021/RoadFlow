@@ -126,5 +126,8 @@ public class Car {
     public float getCarAcceleration(){
         return carParameters.getAccelerationFactor();
     }
-    
+
+    public CarParameters getCarParameters() {
+        return carParameters;
+    }
 }

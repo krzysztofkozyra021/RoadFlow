@@ -1,4 +1,4 @@
-package pl.roadflow;
+package src.main.java.pl.roadflow;
 
 import pl.roadflow.ui.screens.StartingMenu;
 
