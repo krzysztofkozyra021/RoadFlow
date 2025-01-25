@@ -6,7 +6,6 @@ import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import javax.swing.*;
 
 public class PoliceCar extends Car {
-    private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car6_armygreen.png");
     private static CarParameters getPoliceCarParams() {
         return new CarParameters(
                 0.9f,     // accelerationFactor (0.1 - 1.0) - powerful pursuit acceleration
@@ -18,11 +17,8 @@ public class PoliceCar extends Car {
         );
     }
 
-    public PoliceCar() {
-        super(getPoliceCarParams(),carModel);
-    }
-
-    public PoliceCar(CarParameters carParameters) {
-        super(carParameters,carModel);
+    public PoliceCar(String color) {
+        super(getPoliceCarParams(),
+                new ImageIcon("src/main/java/pl/roadflow/assets/cars/car6_" + color + ".png"));
     }
 }

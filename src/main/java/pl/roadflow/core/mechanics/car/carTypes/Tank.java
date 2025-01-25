@@ -6,7 +6,6 @@ import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import javax.swing.*;
 
 public class Tank extends Car {
-    private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car9_armygreen.png");
     private static CarParameters getTankParams() {
         return new CarParameters(
                 0.15f,  // accelerationFactor - heavy vehicle acceleration
@@ -18,11 +17,8 @@ public class Tank extends Car {
         );
     }
 
-    public Tank() {
-        super(getTankParams(),carModel);
-    }
-
-    public Tank(CarParameters carParameters) {
-        super(carParameters,carModel);
+    public Tank(String color) {
+        super(getTankParams(),
+                new ImageIcon("src/main/java/pl/roadflow/assets/cars/car9_" + color + ".png"));
     }
 }

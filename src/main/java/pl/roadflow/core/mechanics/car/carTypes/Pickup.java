@@ -6,7 +6,6 @@ import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import javax.swing.*;
 
 public class Pickup extends Car {
-    private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car11_armygreen.png");
     private static CarParameters getPickupParams() {
         return new CarParameters(
                 0.65f,    // accelerationFactor (0.1 - 1.0) - strong utility acceleration
@@ -18,11 +17,8 @@ public class Pickup extends Car {
         );
     }
 
-    public Pickup() {
-        super(getPickupParams(),carModel);
-    }
-
-    public Pickup(CarParameters carParameters) {
-        super(carParameters,carModel);
+    public Pickup(String color) {
+        super(getPickupParams(),
+                new ImageIcon("src/main/java/pl/roadflow/assets/cars/car11_" + color + ".png"));
     }
 }

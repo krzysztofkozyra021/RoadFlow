@@ -6,8 +6,7 @@ import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import javax.swing.*;
 
 public class Truck extends Car {
-    private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car13_armygreen.png");
-    private static CarParameters getDefaultSportCarParams() {
+    private static CarParameters getTruckParams() {
         return new CarParameters(
                 0.3f,     // accelerationFactor (0.1 - 1.0) - heavy load acceleration
                 0.3f,     // minSpeedToTurn (0 - 2) - wide turning radius
@@ -18,11 +17,8 @@ public class Truck extends Car {
         );
     }
 
-    public Truck() {
-        super(getDefaultSportCarParams(),carModel);
-    }
-
-    public Truck(CarParameters carParameters) {
-        super(carParameters,carModel);
+    public Truck(String color) {
+        super(getTruckParams(),
+                new ImageIcon("src/main/java/pl/roadflow/assets/cars/car13_" + color + ".png"));
     }
 }

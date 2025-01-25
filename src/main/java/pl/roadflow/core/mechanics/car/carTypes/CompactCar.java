@@ -6,7 +6,6 @@ import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import javax.swing.*;
 
 public class CompactCar extends Car {
-    private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car7_armygreen.png");
     private static CarParameters getCompactCarParams() {
         return new CarParameters(
                 0.6f,     // accelerationFactor (0.1 - 1.0) - modest city car acceleration
@@ -18,11 +17,9 @@ public class CompactCar extends Car {
         );
     }
 
-    public CompactCar() {
-        super(getCompactCarParams(),carModel);
-    }
 
-    public CompactCar(CarParameters carParameters) {
-        super(carParameters,carModel);
+    public CompactCar(String color) {
+        super(getCompactCarParams(),
+                new ImageIcon("src/main/java/pl/roadflow/assets/cars/car7_" + color + ".png"));
     }
 }

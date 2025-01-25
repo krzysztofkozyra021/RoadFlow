@@ -6,7 +6,6 @@ import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import javax.swing.*;
 
 public class FamilySedan extends Car {
-    private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car4_armygreen.png");
     private static CarParameters getFamilySedanParams() {
         return new CarParameters(
                 0.5f,     // accelerationFactor (0.1 - 1.0) - comfortable, smooth acceleration
@@ -18,11 +17,8 @@ public class FamilySedan extends Car {
         );
     }
 
-    public FamilySedan() {
-        super(getFamilySedanParams(),carModel);
-    }
-
-    public FamilySedan(CarParameters carParameters) {
-        super(carParameters,carModel);
+    public FamilySedan(String color) {
+        super(getFamilySedanParams(),
+                new ImageIcon("src/main/java/pl/roadflow/assets/cars/car4_" + color + ".png"));
     }
 }

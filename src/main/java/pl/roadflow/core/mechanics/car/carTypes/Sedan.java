@@ -6,7 +6,6 @@ import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import javax.swing.*;
 
 public class Sedan extends Car {
-    private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car5_armygreen.png");
     private static CarParameters getSedanParams() {
         return new CarParameters(
                 0.75f,    // accelerationFactor (0.1 - 1.0) - refined, smooth power delivery
@@ -18,11 +17,8 @@ public class Sedan extends Car {
         );
     }
 
-    public Sedan() {
-        super(getSedanParams(),carModel);
-    }
-
-    public Sedan(CarParameters carParameters) {
-        super(carParameters,carModel);
+    public Sedan(String color) {
+        super(getSedanParams(),
+                new ImageIcon("src/main/java/pl/roadflow/assets/cars/car5_" + color + ".png"));
     }
 }

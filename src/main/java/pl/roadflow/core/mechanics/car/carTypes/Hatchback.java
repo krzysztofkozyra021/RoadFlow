@@ -6,7 +6,6 @@ import src.main.java.pl.roadflow.core.mechanics.stats.CarParameters;
 import javax.swing.*;
 
 public class Hatchback extends Car {
-    private static final ImageIcon carModel = new ImageIcon("src/main/java/pl/roadflow/assets/cars/car3_armygreen.png");
     private static CarParameters getHatchbackParams() {
         return new CarParameters(
                 0.7f,     // accelerationFactor (0.1 - 1.0) - peppy performance
@@ -19,11 +18,8 @@ public class Hatchback extends Car {
         );
     }
 
-    public Hatchback() {
-        super(getHatchbackParams(),carModel);
-    }
-
-    public Hatchback(CarParameters carParameters) {
-        super(carParameters,carModel);
+    public Hatchback(String color) {
+        super(getHatchbackParams(),
+                new ImageIcon("src/main/java/pl/roadflow/assets/cars/car3_" + color + ".png"));
     }
 }
