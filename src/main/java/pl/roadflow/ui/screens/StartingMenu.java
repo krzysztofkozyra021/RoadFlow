@@ -4,6 +4,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import javax.swing.JPanel;
+import javafx.application.Platform;
+import javafx.embed.swing.JFXPanel;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import javafx.scene.layout.BorderPane;
+
 
 public class StartingMenu extends JFrame {
     public StartingMenu() {
@@ -133,9 +144,43 @@ class LeftMenuPanel extends JPanel {
 }
 
 class RightImagePanel extends JPanel {
-    @Override
-    protected void paintComponent(Graphics g) {
-        // TODO: Add gameplay image as a right panel
-        super.paintComponent(g);
+    private JFXPanel jfxPanel; // Panel do integracji JavaFX
+
+    public RightImagePanel() {
+        setLayout(new BorderLayout());
+        initJavaFX();// Inicjalizacja komponentów JavaFX
+        setBackground(Color.BLACK);
+        setOpaque(true);
     }
+
+    private void initJavaFX() {
+        jfxPanel = new JFXPanel();
+        this.add(jfxPanel); // Dodanie JFXPanel do RightImagePanel (Swing)
+
+        // Inicjalizacja JavaFX musi być wykonana w wątku JavaFX
+        Platform.runLater(() -> {
+            String videoPath = "src/main/java/pl/roadflow/assets/background_movie.mp4"; // Podaj prawidłową ścieżkę
+            Media media = new Media(new File(videoPath).toURI().toString());
+            jfxPanel.setPreferredSize(new Dimension(1200, 600));
+            MediaPlayer player = new MediaPlayer(media);
+            MediaView mediaView = new MediaView(player);
+
+
+            player.setCycleCount(MediaPlayer.INDEFINITE);
+            player.setAutoPlay(true);
+
+            BorderPane root = new BorderPane();
+            root.setStyle("-fx-background-color: black;");
+            root.setCenter(mediaView);
+            Scene scene = new Scene(root);
+            scene.setFill(javafx.scene.paint.Color.BLACK);
+            jfxPanel.setScene(scene);
+            mediaView.fitWidthProperty().bind(root.widthProperty());
+            mediaView.fitHeightProperty().bind(root.heightProperty());
+            BorderPane.setAlignment(mediaView, Pos.CENTER);
+
+            player.play(); // Rozpocznij odtwarzanie
+        });
+    }
+
 }

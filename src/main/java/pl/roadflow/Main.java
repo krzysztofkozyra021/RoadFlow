@@ -1,5 +1,4 @@
 package src.main.java.pl.roadflow;
-
 import src.main.java.pl.roadflow.ui.screens.StartingMenu;
 
 public class Main {
