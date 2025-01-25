@@ -58,6 +58,12 @@ public class MapTileConsts {
                     !tile.equals(35) &&
                     !tile.equals(36) &&
                     !tile.equals(37) &&
+                    !tile.equals(49) &&
+                    !tile.equals(50) &&
+                    !tile.equals(51) &&
+                    !tile.equals(52) &&
+                    !tile.equals(53) &&
+                    !tile.equals(54) &&
                     !tile.equals(58) &&
                     !tile.equals(59) &&
                     !tile.equals(60) &&
