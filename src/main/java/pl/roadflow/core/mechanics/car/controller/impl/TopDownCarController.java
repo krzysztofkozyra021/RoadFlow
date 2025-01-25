@@ -13,6 +13,7 @@ public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
     // Vehicle dynamics constants
     public float currentSpeed = 0.0f;          // Current vehicle speed
     private float lateralDrag = 1.02f;          // Lateral movement resistance (More = More drift)
+    private boolean isOnRoad = true;
 
 
     // Input state
@@ -39,12 +40,21 @@ public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
         return carParameters;
     }
 
+    public void setIsOnRoad(boolean isOnRoad) {
+        this.isOnRoad = isOnRoad;
+    }
+
     @Override
     public void applyEngineForce() {
         float maxSpeed = carParameters.getMaxSpeed();
         float accelerationFactor = carParameters.getAccelerationFactor();
         float grip = carParameters.getGrip();
         float deltaTime = 1.0f/60.0f; // Assuming 60 FPS
+
+        if (!isOnRoad) {
+            grip *= 1.5f;
+            maxSpeed *= 0.7f;
+        }
 
         // Calculate how far we are from max speed (as a percentage)
         float currentSpeedRatio = velocity.magnitude() / maxSpeed;
@@ -82,7 +92,13 @@ public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
             brakingForce = (grip * 0.3f + naturalDrag * (currentSpeedRatio)) * deltaTime;
         }
 
+
         velocity = velocity.multiply(1.0f - brakingForce);
+
+        if (!isOnRoad) {
+            velocity = velocity.multiply(0.99f);
+        }
+
         currentSpeed = velocity.magnitude();
     }
 
@@ -93,6 +109,10 @@ public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
                 (float)Math.sin(angleInRadians)
         );
 
+        if (!isOnRoad) {
+            accelerationFactor *= 0.75f;
+        }
+
         float currentForwardSpeed = Vector2.dot(velocity, forwardDir);
         float speedRatio = Math.abs(currentForwardSpeed) / maxSpeed;
         float baseAcceleration = 0.4f;
@@ -101,6 +121,8 @@ public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
 
         float scaledAcceleration = baseAcceleration * accelerationFactor * speedScale;
         float actualAcceleration = accelerationInput * scaledAcceleration * accelerationMultiplier;
+
+
 
         return forwardDir.multiply(actualAcceleration);
     }
@@ -169,5 +191,9 @@ public class TopDownCarController implements IVehiclePhysics, IVehicleInput {
 
         // Reset velocity
         velocity = new Vector2(0, 0);
+    }
+
+    public boolean isOnRoad() {
+        return isOnRoad;
     }
 }
